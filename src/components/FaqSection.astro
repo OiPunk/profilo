@@ -1,0 +1,85 @@
+---
+import FaqCard from './ui/FaqCard.astro';
+import WordColor from './ui/WordColor.astro';
+
+interface FaqItem {
+  id: number;
+  question: string;
+  answer: string;
+}
+
+interface FaqSectionContent {
+  header: {
+    title: string;
+    subtitle: string;
+  };
+  faqs: FaqItem[];
+}
+
+const content: FaqSectionContent = {
+  header: {
+    title: "Asked Questions",
+    subtitle: "Got questions? Here are answers to common queries about our services and pricing.",
+  },
+  faqs: [
+    {
+      id: 1,
+      question: "What is included in the Basic plan?",
+      answer: "The Basic plan includes a single-page website with responsive design, basic SEO optimization, and one month of support after launch.",
+    },
+    {
+      id: 2,
+      question: "Can I upgrade my plan later?",
+      answer: "Yes, you can upgrade to a higher plan at any time. Contact us to discuss your needs, and we'll tailor a solution for you.",
+    },
+    {
+      id: 3,
+      question: "What does 'Custom' pricing mean for the Enterprise plan?",
+      answer: "The Enterprise plan is fully customizable based on your project requirements. Pricing depends on factors like complexity, integrations, and support duration.",
+    },
+    {
+      id: 4,
+      question: "Do you offer refunds?",
+      answer: "Refunds are evaluated on a case-by-case basis. Please contact us within 7 days of purchase to discuss your situation.",
+    },
+  ],
+};
+
+// Animation delays for FAQ cards
+const delays = ['100', '200', '300', '400'];
+---
+
+<section class="py-16 bg-gray-900/50 relative overflow-hidden">
+  <div class="max-w-4xl mx-auto px-6 lg:px-12 relative z-10">
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <h2 
+        class="text-3xl lg:text-4xl font-bold font-code inline-block relative text-white mb-1"
+        data-animate="fadeInUp"
+        data-delay="100"
+      >
+        <WordColor text={content.header.title} wordsPerColor={1} />
+        <div class="absolute -bottom-2 left-0 w-full h-1 bg-green-500 opacity-70"></div>
+      </h2>
+      <p 
+        class="text-gray-400 mt-4 max-w-2xl mx-auto"
+        data-animate="fadeInUp"
+        data-delay="200"
+      >
+        {content.header.subtitle}
+      </p>
+    </div>
+
+    <!-- FAQ Items -->
+    <div class="space-y-4" x-data="{ open: null }">
+      {content.faqs.map((faq, index) => (
+        <FaqCard
+          id={faq.id}
+          question={faq.question}
+          answer={faq.answer}
+          delay={delays[index] || '100'}
+        />
+      ))}
+    </div>
+  </div>
+</section>

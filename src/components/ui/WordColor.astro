@@ -1,0 +1,25 @@
+---
+interface Props {
+  text: string;
+  colors?: string[];
+  wordsPerColor?: number;
+  class?: string;
+}
+
+const { text, colors = ['text-white', 'text-green-500'], wordsPerColor = 2, class: className = '' } = Astro.props;
+const words = text.split(' ');
+// Group words into chunks of wordsPerColor
+const wordGroups = [];
+for (let i = 0; i < words.length; i += wordsPerColor) {
+  wordGroups.push(words.slice(i, i + wordsPerColor).join(' '));
+}
+---
+
+{
+  wordGroups.map((group, index) => (
+    <span class={`${colors[index % colors.length]} ${className}`}>
+      {group}
+      {index < wordGroups.length - 1 ? ' ' : ''}
+    </span>
+  ))
+}

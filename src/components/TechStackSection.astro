@@ -1,0 +1,61 @@
+---
+export interface TechStackItemType {
+  icon: string;
+  name: string;
+  iconClass: string;
+}
+
+const techStackItems: TechStackItemType[] = [
+  { icon: 'fab fa-js', name: 'JavaScript', iconClass: 'text-yellow-400' },
+  { icon: 'fab fa-react', name: 'React', iconClass: 'text-blue-400' },
+  { icon: 'fab fa-node-js', name: 'Node.js', iconClass: 'text-green-500' },
+  { icon: 'fab fa-python', name: 'Python', iconClass: 'text-blue-500' },
+  { icon: 'fab fa-html5', name: 'HTML5', iconClass: 'text-orange-500' },
+  { icon: 'fab fa-css3-alt', name: 'CSS3', iconClass: 'text-blue-500' },
+  { icon: 'fab fa-sass', name: 'SASS', iconClass: 'text-pink-500' },
+  { icon: 'fab fa-git-alt', name: 'Git', iconClass: 'text-orange-600' },
+  { icon: 'fab fa-docker', name: 'Docker', iconClass: 'text-blue-500' },
+  { icon: 'fab fa-aws', name: 'AWS', iconClass: 'text-orange-400' },
+  { icon: 'fab fa-bootstrap', name: 'Bootstrap', iconClass: 'text-blue-600' },
+  { icon: 'fab fa-vuejs', name: 'Vue.js', iconClass: 'text-green-400' },
+  { icon: 'fab fa-angular', name: 'Angular', iconClass: 'text-red-500' },
+  { icon: 'fas fa-database', name: 'PostgreSQL', iconClass: 'text-blue-700' },
+  { icon: 'fas fa-leaf', name: 'MongoDB', iconClass: 'text-green-600' },
+  { icon: 'fab fa-npm', name: 'Npm', iconClass: 'text-blue-400' },
+];
+---
+
+<section id="techstack" class="relative h-16 bg-gray-800/50 backdrop-blur-sm flex items-center overflow-hidden">
+  <div id="marquee" class="flex items-center gap-8 animate-[marquee_25s_linear_infinite]">
+    {techStackItems.map((item) => (
+      <div class="flex items-center gap-2 text-gray-400">
+        <i class={`${item.icon} text-2xl ${item.iconClass}`}></i>
+        {item.name}
+      </div>
+    ))}
+    <!-- Duplicate for seamless marquee -->
+    {techStackItems.map((item) => (
+      <div class="flex items-center gap-2 text-gray-400">
+        <i class={`${item.icon} text-2xl ${item.iconClass}`}></i>
+        {item.name}
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  const marquee = document.getElementById('marquee');
+  if (marquee) {
+    let totalWidth = 0;
+    for (let item of marquee.children) {
+      totalWidth += (item as HTMLElement).offsetWidth + 32; // Include gap-8 (32px)
+    }
+    marquee.style.width = `${totalWidth}px`;
+    marquee.addEventListener('mouseenter', () => {
+      marquee.style.animationPlayState = 'paused';
+    });
+    marquee.addEventListener('mouseleave', () => {
+      marquee.style.animationPlayState = 'running';
+    });
+  }
+</script>

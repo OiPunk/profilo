@@ -1,0 +1,51 @@
+---
+interface PricingCardProps {
+  title: string;
+  icon: string;
+  price: string;
+  priceUnit: string;
+  description: string;
+  features: string[];
+  cta: {
+    text: string;
+    href: string;
+    isPrimary: boolean;
+  };
+  isPopular?: boolean;
+  delay: string;
+}
+
+const { title, icon, price, priceUnit, description, features, cta, isPopular = false, delay } = Astro.props as PricingCardProps;
+---
+
+<div 
+  class={`bg-gray-950 rounded-lg border ${isPopular ? 'border-green-500' : 'border-gray-800'} pricing-card terminal-shadow overflow-hidden relative`}
+  data-animate="fadeInUp"
+  data-delay={delay}
+>
+  {isPopular && (
+    <div class="absolute top-0 right-0 bg-green-500 text-gray-900 text-xs font-bold font-code px-3 py-1 rounded-bl-lg">
+      Popular
+    </div>
+  )}
+  <div class="py-8 px-6">
+    <h3 class="text-xl font-bold font-code text-white mb-2 flex items-center gap-2">
+      <i class={`${icon} text-green-400 led-glow`}></i> {title}
+    </h3>
+    <div class="text-3xl font-bold text-green-400 mb-4">
+      {price}<span class="text-sm text-gray-400">{priceUnit}</span>
+    </div>
+    <p class="text-gray-300 mb-6">{description}</p>
+    <ul class="list-disc list-inside text-gray-300 space-y-2 mb-6">
+      {features.map((feature: string) => (
+        <li>{feature}</li>
+      ))}
+    </ul>
+    <a 
+      href={cta.href}
+      class={`block w-full p-3 ${cta.isPrimary ? 'bg-green-500 text-gray-900 hover:bg-green-600' : 'bg-gray-800 text-white border border-gray-700 hover:bg-gray-900'} font-bold font-code rounded-lg text-center transition-all`}
+    >
+      {cta.text}
+    </a>
+  </div>
+</div>

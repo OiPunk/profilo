@@ -1,0 +1,102 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BlogCard from '../../components/ui/BlogCard.astro';
+import Pagination from '../../components/ui/Pagination.astro';
+import { blogItems } from '../../data/blogItems';
+import BlogSidebar from '../../components/ui/BlogSidebar.astro';
+import WordColor from '../../components/ui/WordColor.astro';
+
+export async function getStaticPaths() {
+  const postsPerPage = 2;
+  const totalPosts = blogItems.length;
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+
+  return Array.from({ length: totalPages - 1 }, (_, i) => ({
+    params: { page: String(i + 2) },
+  }));
+}
+
+interface BlogPageContent {
+  header: {
+    title: string;
+    subtitle: string;
+  };
+}
+const content: BlogPageContent = {
+  header: {
+    title: "Our Latest Blog",
+    subtitle: "Dive into my thoughts on coding, tech trends, and developer life. Explore my latest posts below.",
+  },
+};
+
+const { page } = Astro.params;
+const currentPage = Number(page);
+const postsPerPage = 6;
+const totalPosts = blogItems.length;
+const totalPages = Math.ceil(totalPosts / postsPerPage);
+
+if (isNaN(currentPage) || currentPage < 2 || currentPage > totalPages) {
+  return Astro.redirect('/blog/');
+}
+
+const sortedBlogItems = blogItems.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const start = (currentPage - 1) * postsPerPage;
+const end = Math.min(start + postsPerPage, totalPosts);
+const posts = sortedBlogItems.slice(start, end);
+---
+
+<Layout title="Blog | Tech Blog">
+  <section class="py-16 bg-gray-900/50 relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6 lg:px-12 relative z-10">
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <h2 class="text-3xl lg:text-4xl font-bold font-code inline-block relative text-white mb-1"
+        data-animate="fadeInUp"
+        data-delay="100"
+      >
+        <WordColor text={content.header.title} wordsPerColor={1} />
+        <div class="absolute -bottom-2 left-0 w-full h-1 bg-green-500 opacity-70"></div>
+      </h2>
+      <p 
+        class="text-gray-400 mt-4 max-w-2xl mx-auto"
+        data-animate="fadeInUp"
+        data-delay="100"
+      >
+        {content.header.subtitle}
+      </p>
+    </div>
+
+    <!-- Three-Column Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Left Sidebar -->
+      <BlogSidebar />
+
+      <!-- Blog Posts -->
+      <div class="relative lg:col-span-2">
+        {posts.length > 0 ? (
+            <div class="grid gap-6">
+            {posts.map((post, index) => (
+              <BlogCard
+                title={post.title}
+                excerpt={post.excerpt}
+                image={post.image}
+                url={post.url}
+                tags={post.tags}
+                date={post.date}
+                index={index}
+                dataAnimate="fadeInUp"
+                dataDelay={(index + 1) * 100}
+              />
+            ))}
+            </div>
+        ) : (
+            <p>No posts available for this page.</p>
+        )}
+        {totalPages > 1 && (
+            <Pagination currentPage={currentPage} totalPages={totalPages} baseUrl="/blog" />
+        )}
+        </div>
+    </div>
+    </div>
+    </section>
+</Layout>

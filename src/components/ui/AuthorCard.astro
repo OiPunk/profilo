@@ -1,0 +1,39 @@
+---
+interface Props {
+  name: string;
+  bio: string;
+  image: string;
+  social: {
+    github: string;
+    linkedin: string;
+    twitter: string;
+  };
+}
+
+const { name, bio, image, social } = Astro.props as Props;
+---
+
+<div class="p-6 bg-gray-950 rounded-lg border border-gray-800 mb-8">
+  <div class="flex flex-col sm:flex-row items-center gap-6">
+    <img 
+      src={image} 
+      alt={name} 
+      class="w-16 h-16 rounded-full object-cover" 
+    />
+    <div>
+      <h4 class="max-sm:text-center text-lg font-bold text-white mb-1">{name}</h4>
+      <p class="text-gray-300 mb-3">{bio}</p>
+      <div class="flex gap-4">
+        <a href={social.github} target="_blank" class="text-gray-300 hover:text-green-400 text-xl">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href={social.linkedin} target="_blank" class="text-gray-300 hover:text-green-400 text-xl">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href={social.twitter} target="_blank" class="text-gray-300 hover:text-green-400 text-xl">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

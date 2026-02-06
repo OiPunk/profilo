@@ -1,0 +1,129 @@
+---
+import Icon from './ui/Icon.astro';
+import WordColor from './ui/WordColor.astro';
+import "glightbox/dist/css/glightbox.min.css";
+
+interface pageProps {
+  title: string;
+  description: string;
+}
+const { title = 'Latest Project', description = 'A collection of my recent work, showcasing innovative solutions and clean code. Click to explore details.' } = Astro.props as pageProps;
+
+export interface ProjectItemType {
+  title: string;
+  description: string;
+  image: string;
+  gallery: string;
+  tags: string[];
+  links: { icon: string; href: string }[];
+  icon: string;
+}
+
+const projectItems: ProjectItemType[] = [
+  {
+    title: 'Microservices E-Commerce',
+    description:
+      'Distributed e-commerce system based on Spring Cloud, featuring user, order, product, and payment services with Nacos + Gateway + Sentinel architecture.',
+    image: '/img/project1.jpg',
+    gallery: 'project-1',
+    tags: ['Spring Cloud', 'MySQL', 'Redis'],
+    links: [
+      { icon: 'fab fa-github', href: 'https://github.com/OiPunk' },
+    ],
+    icon: 'fas fa-shopping-cart',
+  },
+  {
+    title: 'Online Taxi Platform',
+    description:
+      'Ride-hailing backend system implementing driver-passenger matching, real-time location tracking, and order management with RabbitMQ for async messaging.',
+    image: '/img/project2.jpg',
+    gallery: 'project-1',
+    tags: ['Spring Boot', 'RabbitMQ', 'WebSocket'],
+    links: [
+      { icon: 'fab fa-github', href: 'https://github.com/OiPunk' },
+    ],
+    icon: 'fas fa-taxi',
+  },
+  {
+    title: 'Tech Blog System',
+    description:
+      'Personal tech blog built with Astro framework, supporting Markdown writing, tag categorization, and full-text search.',
+    image: '/img/project3.jpg',
+    gallery: 'project-1',
+    tags: ['Astro', 'Tailwind', 'Markdown'],
+    links: [
+      { icon: 'fab fa-github', href: 'https://github.com/OiPunk/astro-blog' },
+    ],
+    icon: 'fas fa-blog',
+  },
+];
+---
+
+<section id="projects" class="py-20 bg-gray-900/50 relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6 lg:px-12 relative z-10">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl lg:text-4xl font-bold font-code inline-block relative text-white mb-1">
+        <WordColor text={title} wordsPerColor={1} />
+        <div class="absolute -bottom-2 left-0 w-full h-1 bg-green-500 opacity-70"></div>
+      </h2>
+      <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
+        {description}
+      </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {projectItems.map((project, index) => (
+        // project card 
+        <div class="bg-gray-950 rounded-lg overflow-hidden border border-gray-800 shadow-lg hover:shadow-xl transition-shadow transform hover:-translate-y-1" 
+        data-animate="fadeInUp"
+        data-delay={(index + 1) * 100}>
+          <a href={project.image}
+            class="glightbox"
+            data-gallery={project.gallery}
+            data-glightbox={`title: ${project.title}; description: ${project.description}`}>
+            <img
+              src={project.image}
+              alt={project.title}
+              class="w-full h-48 object-cover"
+            />
+          </a>
+          <div class="p-6">
+            <h3 class="text-xl font-bold font-code text-white mb-2 flex items-center gap-2">
+              <Icon name={project.icon} className="text-green-400 led-glow" />
+              {project.title}
+            </h3>
+            <p class="text-gray-300 mb-4">{project.description}</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              {project.tags.map((tag) => (
+                <span
+                  class="px-2 py-1 bg-gray-700/20 text-gray-300 rounded-full text-sm"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div class="flex gap-4">
+              {project.links.map((link) => (
+                <a href={link.href}
+                  target="_blank"
+                  class="text-gray-400 hover:text-green-400 transition-colors">
+                  <Icon name={link.icon} className="text-xl" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+import GLightbox from 'glightbox';
+
+document.addEventListener("DOMContentLoaded", () => {
+  // GLightbox
+  const lightbox = GLightbox({
+    selector: '.glightbox',
+  });
+});
+</script>

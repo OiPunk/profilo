@@ -1,0 +1,68 @@
+---
+import Button from './ui/Button.astro';
+import WordColor from './ui/WordColor.astro';
+
+export interface CTAContentType {
+  title: string;
+  subtitle: string;
+  description: string;
+  button: { text: string; href: string; icon: string };
+  circleItems: { icon: string; text: string; position: string; rotation: string }[];
+}
+
+const ctaContent: CTAContentType = {
+  title: 'Ready to Collaborate?',
+  subtitle: 'My life revolves around code, coffee, and creativity. Let’s build something amazing together!',
+  description: '',
+  button: {
+    text: 'Hire Me',
+    href: '#contact',
+    icon: 'fas fa-briefcase',
+  },
+  circleItems: [
+    { icon: 'fas fa-code', text: 'CODE', position: 'top-8 left-1/2 -translate-x-1/2', rotation: '' },
+    { icon: 'fas fa-utensils', text: 'EAT', position: 'left-8 top-1/2 -translate-y-1/2', rotation: '-rotate-90' },
+    { icon: 'fas fa-bed', text: 'SLEEP', position: 'bottom-8 left-1/2 -translate-x-1/2', rotation: '-rotate-180' },
+    { icon: 'fas fa-redo', text: 'REPEAT', position: 'right-8 top-1/2 -translate-y-1/2', rotation: 'rotate-90' },
+  ],
+};
+---
+
+<section id="cta" class="py-20 bg-dark border-y border-gray-800 relative overflow-hidden">
+  <div class="absolute inset-0 bg-hero opacity-[.03]"></div>
+  <div class="max-w-6xl mx-auto px-6 lg:px-12 relative z-10">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl lg:text-4xl font-bold font-code inline-block relative text-white mb-1">
+        <WordColor text={ctaContent.title} wordsPerColor={2} />
+        <div class="absolute -bottom-2 left-0 w-full h-1 bg-green-500 opacity-70"></div>
+      </h2>
+      <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
+        {ctaContent.subtitle}
+      </p>
+    </div>
+    <div class="flex justify-center items-center">
+      <div class="relative w-80 h-80 lg:w-96 lg:h-96 flex items-center justify-center" data-animate="zoomIn" data-delay="100">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-purple-400/40 animate-pulse blur-3xl"></div>
+        <div class="absolute w-full h-full bg-dark rounded-full overflow-hidden border-2 border-gray-700 animate-[spin_20s_linear_infinite] pause-on-hover">
+          <div class="absolute inset-0 bg-square opacity-[.05]"></div>
+          {ctaContent.circleItems.map((item) => (
+            <div class={`absolute ${item.position} flex flex-col items-center ${item.rotation}`}>
+              <i class={`${item.icon} text-2xl text-green-400`}></i>
+              <span class="text-gray-300 font-bold text-sm mt-1 font-code">
+                {item.text}
+              </span>
+            </div>
+          ))}
+        </div>
+        <Button
+          href={ctaContent.button.href}
+          link={true}
+          color='green'
+          variant="filled"
+          class="z-10">
+            <i class={ctaContent.button.icon}></i> {ctaContent.button.text}
+          </Button>
+      </div>
+    </div>
+  </div>
+</section>

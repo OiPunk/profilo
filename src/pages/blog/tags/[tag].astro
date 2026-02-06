@@ -1,0 +1,80 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import BlogCard from '../../../components/ui/BlogCard.astro';
+import Pagination from '../../../components/ui/Pagination.astro';
+import { blogItems } from '../../../data/blogItems';
+import BlogSidebar from '../../../components/ui/BlogSidebar.astro';
+import WordColor from '../../../components/ui/WordColor.astro';
+
+export async function getStaticPaths() {
+  const tags = [...new Set(blogItems.flatMap(post => post.tags))];
+  return tags.map(tag => ({
+    params: { tag: tag.toLowerCase() },
+  }));
+}
+
+const { tag } = Astro.params;
+const posts = blogItems
+  .filter(post => post.tags.map(t => t.toLowerCase()).includes(tag))
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+const postsPerPage = 6;
+const currentPage = 1;
+const totalPosts = posts.length;
+const totalPages = Math.ceil(totalPosts / postsPerPage);
+const start = 0;
+const end = Math.min(postsPerPage, totalPosts);
+const tagPosts = posts.slice(start, end);
+---
+
+<Layout title="Blog | Tech Blog">
+  <section class="py-16 bg-gray-900/50 relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6 lg:px-12 relative z-10">
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <h2 class="text-3xl lg:text-4xl font-bold font-code capitalize inline-block relative text-white mb-1"
+        data-animate="fadeInUp"
+        data-delay="100"
+      >
+        <WordColor text={tag} wordsPerColor={1} />
+        <div class="absolute -bottom-2 left-0 w-full h-1 bg-green-500 opacity-70"></div>
+      </h2>
+      <p 
+        class="text-gray-400 mt-4 max-w-2xl mx-auto"
+        data-animate="fadeInUp"
+        data-delay="100"
+      >
+       Explore posts tagged with "{tag}" below.
+      </p>
+    </div>
+
+    <!-- Three-Column Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Left Sidebar -->
+      <BlogSidebar />
+
+      <!-- Blog Posts -->
+      <div class="relative lg:col-span-2">
+        <div class="grid gap-6">
+           {tagPosts.map((post, index) => (
+            <BlogCard
+                title={post.title}
+                excerpt={post.excerpt}
+                image={post.image}
+                url={post.url}
+                tags={post.tags}
+                date={post.date}
+                index={index}
+                dataAnimate="fadeInUp"
+                dataDelay={(index + 1) * 100}
+              />
+            ))}
+            </div>
+            {totalPages > 1 && (
+                <Pagination currentPage={currentPage} totalPages={totalPages} baseUrl={`/blog/tags/${tag}`} />
+            )}
+            </div>
+        </div>
+    </div>
+</section>
+</Layout>

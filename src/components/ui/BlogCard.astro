@@ -1,0 +1,69 @@
+---
+interface Props {
+  title: string;
+  excerpt: string;
+  image: string;
+  url: string;
+  tags: string[];
+  date: string;
+  index: number;
+  class?: string;
+  dataAnimate?: string;
+  dataDelay?: number | string;
+}
+
+const {
+  title,
+  excerpt,
+  image,
+  url,
+  tags,
+  date,
+  index,
+  class: className,
+  dataAnimate = 'fadeInUp',
+  dataDelay = (index + 1) * 100,
+} = Astro.props;
+---
+
+<article
+  class={`bg-gray-950 rounded-lg border border-gray-800 shadow-lg hover:shadow-xl transition-shadow transform hover:-translate-y-1 flex flex-col md:flex-row overflow-hidden ${className || ''}`}
+  data-animate={dataAnimate}
+  data-delay={dataDelay}
+>
+  <div class="md:w-1/3">
+    <a href={url}>
+      <img
+        src={image}
+        alt={title}
+        class="w-full h-48 md:h-full object-cover"
+      />
+    </a>
+  </div>
+  <div class="p-6 md:w-2/3 flex flex-col justify-between">
+    <div>
+      <h3 class="text-xl font-bold font-code text-white mb-2">
+        <a href={url} class="hover:text-green-400 transition-colors">
+          {title}
+        </a>
+      </h3>
+      <p class="text-gray-300 mb-4 line-clamp-3">{excerpt}</p>
+      <div class="flex flex-wrap gap-2 mb-4">
+        {tags.map((tag) => (
+          <span class="px-2 py-1 bg-gray-700/20 text-gray-300 rounded-full text-sm">
+            {tag}
+          </span>
+        ))}
+      </div>
+    </div>
+    <div class="flex items-center justify-between">
+      <div class="text-gray-400 text-sm flex items-center gap-2">
+        <i class="fas fa-calendar-alt"></i>
+        <span>{date}</span>
+      </div>
+      <a href={url} class="text-green-400 hover:text-green-600 font-medium flex items-center gap-2">
+        Read More <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</article>

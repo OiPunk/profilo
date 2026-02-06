@@ -1,0 +1,24 @@
+---
+interface FaqCardProps {
+  id: number;
+  question: string;
+  answer: string;
+  delay: string;
+}
+
+const { id, question, answer, delay } = Astro.props as FaqCardProps;
+---
+
+<div class="bg-gray-950/50 rounded-lg border border-gray-800 faq-item"
+  data-animate="fadeInUp"
+  data-delay={delay}
+>
+  <button class="w-full p-4 flex justify-between items-center text-left" @click={`open = open === ${id} ? null : ${id}`}>
+    <span class="text-lg font-code text-white">{question}</span>
+    <i class="fas" :class={`open === ${id} ? 'fa-chevron-up' : 'fa-chevron-down'`} class="text-green-400"
+    ></i>
+  </button>
+  <div x-show={`open === ${id}`} x-transition class="p-4 pt-0 text-gray-300">
+    {answer}
+  </div>
+</div>

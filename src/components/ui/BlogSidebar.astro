@@ -1,0 +1,83 @@
+---
+import { blogItems } from '../../data/blogItems';
+
+// Define interfaces
+interface Category {
+  name: string;
+  url: string;
+}
+
+interface Tag {
+  name: string;
+  url: string;
+}
+
+interface BlogSidebarContent {
+  title: string;
+  icon: string;
+  categories: Category[];
+}
+
+// Dynamically generate categories from blogItems
+const categories: Category[] = [...new Set(blogItems.map(post => post.category))]
+  .map(category => ({
+    name: category,
+    url: `/blog/category/${category.toLowerCase().replace('.', '')}`
+  }));
+
+// Dynamically generate tags from blogItems
+const tags: Tag[] = [...new Set(blogItems.flatMap(post => post.tags || []))]
+  .map(tag => ({
+    name: tag,
+    url: `/blog/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`
+  }));
+
+const content: BlogSidebarContent = {
+  title: "Categories",
+  icon: "fas fa-tags",
+  categories,
+};
+---
+
+<aside class="lg:col-span-1 relative">
+  {/* Category Card */}
+  <div 
+    class="bg-gray-950/50 p-6 rounded-lg border border-gray-800 mb-4"
+    data-animate="fadeInLeft"
+    data-delay="100"
+  >
+    <h3 class="text-xl font-bold font-code text-white mb-6 flex items-center gap-2">
+      <i class={`${content.icon} text-green-400 led-glow`}></i> {content.title}
+    </h3>
+    <ul class="space-y-3">
+      {content.categories.map((category) => (
+        <li>
+          <a href={category.url} class="text-gray-300 hover:text-green-400 transition-colors">
+            {category.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  {/* Tags Card */}
+  <div 
+    class="bg-gray-950/50 p-6 rounded-lg border border-gray-800 mb-4"
+    data-animate="fadeInLeft"
+    data-delay="200"
+  >
+    <h3 class="text-xl font-bold font-code text-white mb-6 flex items-center gap-2">
+      <i class="fas fa-hashtag text-green-400 led-glow"></i> Tags
+    </h3>
+    <div class="flex flex-wrap gap-2">
+      {tags.map((tag) => (
+        <a 
+          href={tag.url}
+          class="inline-block bg-gray-800/50 px-3 py-1 rounded-full text-sm text-gray-300 hover:text-green-400 hover:bg-gray-800 transition-colors"
+        >
+          #{tag.name}
+        </a>
+      ))}
+    </div>
+  </div>
+</aside>

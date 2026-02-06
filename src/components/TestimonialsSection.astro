@@ -1,0 +1,97 @@
+---
+import TestimonialCard from "./ui/TestimonialCard.astro";
+import WordColor from "./ui/WordColor.astro";
+
+interface TestimonialsSectionType {
+  title: string;
+  subtitle: string;
+}
+const testimonialsSection: TestimonialsSectionType = {
+  title: 'What Clients Say',
+  subtitle:
+    'Hear from those who’ve worked with me about the impact of my code and collaboration.',
+};
+
+export interface TestimonialItemType {
+  name: string;
+  avatar: string;
+  role: string;
+  quote: string;
+  rating: number;
+}
+
+const testimonialItems: TestimonialItemType[] = [
+  {
+    name: 'Sarah Mitchell',
+    avatar: '/img/female1.jpg',
+    role: 'CEO, TechTrend',
+    quote:
+      "John's expertise in React and Node.js transformed our app's performance. His attention to detail is unmatched!",
+    rating: 5,
+  },
+  {
+    name: 'Michael Chen',
+    avatar: '/img/male1.jpg',
+    role: 'Product Manager, InnovateCo',
+    quote:
+      'Working with John was a breeze. He delivered clean, efficient code ahead of schedule.',
+    rating: 4,
+  },
+  {
+    name: 'Emily Davis',
+    avatar: '/img/female2.jpg',
+    role: 'Founder, StartUpX',
+    quote:
+      "John's creative solutions and dedication made our project a success. Highly recommend!",
+    rating: 5,
+  },
+  {
+    name: 'David Johnson',
+    avatar: '/img/male2.jpg',
+    role: 'CTO, WebCore Solutions',
+    quote:
+      'John brought fresh ideas and robust architecture to our development team. He’s a true professional.',
+    rating: 5,
+  },
+  {
+    name: 'Anna Lee',
+    avatar: '/img/female3.jpg',
+    role: 'Design Lead, Creativa',
+    quote:
+      'His collaboration with the design team was seamless. The final UI exceeded expectations!',
+    rating: 4,
+  },
+  {
+    name: 'Vivian Gomez',
+    avatar: '/img/female4.jpg',
+    role: 'Marketing Director, BrandReach',
+    quote: 'From code quality to communication, John delivers top-tier results every time.',
+    rating: 5,
+  },
+];
+---
+
+<section id="reviews" class="py-20 bg-gray-900/50 relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6 lg:px-12 relative z-10">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl lg:text-4xl font-bold font-code inline-block relative text-white mb-1">
+        <WordColor text={testimonialsSection.title} wordsPerColor={1} />
+        <div class="absolute -bottom-2 left-0 w-full h-1 bg-green-500 opacity-70"></div>
+      </h2>
+      <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
+        {testimonialsSection.subtitle}
+      </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {testimonialItems.map((testimonial, index) => (
+        <TestimonialCard
+          avatar={testimonial.avatar}
+          name={testimonial.name}
+          role={testimonial.role}
+          quote={testimonial.quote}
+          rating={testimonial.rating}
+          index={index} />
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,20 @@
+---
+interface Props {
+  type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date';
+  id: string;
+  placeholder?: string;
+  required?: boolean;
+  xModel?: string;
+}
+
+const { type, id, placeholder, required, xModel } = Astro.props as Props;
+---
+
+<input
+  type={type}
+  id={id}
+  placeholder={placeholder}
+  required={required}
+  x-model={xModel}
+  class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded text-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-colors"
+/>

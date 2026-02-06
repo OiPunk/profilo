@@ -1,0 +1,189 @@
+---
+import "../styles/global.css";
+import Header from '../components/Header.astro';
+import FooterSection from '../components/FooterSection.astro';
+
+export interface Props {
+  title?: string;
+}
+const { title = "Weiguang Li - Java Backend Developer" } = Astro.props as Props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-950 text-gray-100 font-sans">
+    <Header />
+    <main id="main" class="relative bg-gray-900/50 overflow-hidden">
+      <slot />
+    </main>
+    <FooterSection />
+    
+<script>
+import Alpine from 'alpinejs';
+
+declare global {
+  interface Window {
+    Alpine: typeof import('alpinejs');
+  }
+}
+
+function setupIntersectionObserver() {
+  // Fallback
+  if (!("IntersectionObserver" in window)) {
+    document.querySelectorAll("[data-progress]").forEach((element) => {
+      const targetWidth = parseInt(element.getAttribute("data-progress") || "0");
+      (element as HTMLElement).style.width = targetWidth + "%";
+    });
+    document.querySelectorAll("[data-counter]").forEach((element) => {
+      const target = parseInt(element.getAttribute("data-counter") || "0");
+      const suffix = element.getAttribute("data-suffix") || "";
+      const prefix = element.getAttribute("data-prefix") || "";
+      (element as HTMLElement).textContent = prefix + target + suffix;
+    });
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate");
+
+          // counter
+          if (entry.target.hasAttribute("data-counter")) {
+            animateCounter(entry.target as HTMLElement);
+          }
+
+          const counterElements = entry.target.querySelectorAll("[data-counter]");
+          counterElements.forEach((counter) => {
+            animateCounter(counter as HTMLElement);
+          });
+
+          // progress bar
+          if (entry.target.hasAttribute("data-progress")) {
+            animateProgress(entry.target as HTMLElement);
+          }
+          const progressElements = entry.target.querySelectorAll("[data-progress]");
+          progressElements.forEach((progress) => {
+            animateProgress(progress as HTMLElement);
+          });
+
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.01,
+      rootMargin: "50px",
+    }
+  );
+
+  // data-animate, data-counter, data-progress
+  document.querySelectorAll("[data-animate], [data-counter], [data-progress]").forEach((el) => {
+    observer.observe(el);
+  });
+}
+
+function animateCounter(element: HTMLElement) {
+  const target = parseInt(element.getAttribute("data-counter") || "0");
+  const duration = parseInt(element.getAttribute("data-duration") || "2000");
+  const suffix = element.getAttribute("data-suffix") || "";
+  const prefix = element.getAttribute("data-prefix") || "";
+  let start = 0;
+  const increment = target / (duration / 16);
+
+  const updateCounter = () => {
+    start += increment;
+    if (start < target) {
+      element.textContent = prefix + Math.floor(start) + suffix;
+      requestAnimationFrame(updateCounter);
+    } else {
+      element.textContent = prefix + target + suffix;
+    }
+  };
+  updateCounter();
+}
+
+function animateProgress(element: HTMLElement) {
+  const targetWidth = parseInt(element.getAttribute("data-progress") || "0");
+  element.style.width = targetWidth + "%";
+}
+
+function setupSmoothScroll() {
+  const backToTopButton = document.getElementById('back-to-top');
+  const navLinks = document.querySelectorAll('a[data-type="smooth"]');
+
+  window.addEventListener('scroll', () => {
+    if (!backToTopButton) return;
+    if (window.scrollY > 300) {
+      backToTopButton.style.display = 'block';
+      backToTopButton.classList.remove('opacity-0', 'invisible');
+      backToTopButton.classList.add('opacity-100', 'visible');
+    } else {
+      backToTopButton.classList.remove('opacity-100', 'visible');
+      backToTopButton.classList.add('opacity-0', 'invisible');
+      setTimeout(() => {
+        if (window.scrollY <= 300 && backToTopButton) {
+          backToTopButton.style.display = 'none';
+        }
+      }, 300);
+    }
+  });
+
+  if (backToTopButton) {
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+
+  navLinks.forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = anchor.getAttribute('href');
+      if (!href) return;
+      const targetId = href.substring(1);
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        const yOffset = -70; // Offset for fixed header
+        const rect = targetElement.getBoundingClientRect();
+        const y = rect ? rect.top + window.pageYOffset + yOffset : window.pageYOffset;
+        window.scrollTo({
+          top: y,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Alpine.js
+  window.Alpine = Alpine;
+  Alpine.start();
+
+  // IntersectionObserver
+  setupIntersectionObserver();
+
+  // Smooth Scroll
+  setupSmoothScroll();
+});
+</script>
+  </body>
+</html>

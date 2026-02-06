@@ -1,0 +1,183 @@
+---
+import Coffee from "./ui/Coffee.astro";
+import GithubCard from "./ui/GithubCard.astro";
+
+interface AboutContent {
+  header: {
+    title: string;
+  };
+  profile: {
+    name: string;
+    title: string;
+    image: string;
+    imageAlt: string;
+    email: string;
+    location: string;
+    socials: Array<{ platform: string; url: string; icon: string }>;
+  };
+  content: {
+    title: string;
+    paragraphs: string[];
+    skills: string[];
+  };
+  stats: Array<{
+    icon: string;
+    value: string;
+    label: string;
+  }>;
+    aboutContent: {
+        github: {
+        username: string;
+        avatar: string;
+        url: string;
+        };
+        cta: {
+        text: string;
+        href: string;
+        icon: string;
+        count: number;
+        };
+        name: string;
+        jobTitle: string;
+    };
+}
+
+const content: AboutContent = {
+  header: {
+    title: "about",
+  },
+  profile: {
+    name: "John Peterson",
+    title: "Full-Stack Developer",
+    image: "/img/male2.jpg",
+    imageAlt: "John Peterson",
+    email: "john@devworkspace.com",
+    location: "San Francisco, CA",
+    socials: [
+      { platform: "GitHub", url: "https://github.com/", icon: "fab fa-github" },
+      { platform: "LinkedIn", url: "https://linkedin.com/in/", icon: "fab fa-linkedin" },
+      { platform: "Twitter", url: "https://twitter.com/", icon: "fab fa-twitter" },
+    ],
+  },
+  content: {
+    title: "About John Peterson",
+    paragraphs: [
+      "I'm a passionate full-stack developer with over 5 years of experience crafting web applications that solve real-world problems. My journey in tech is driven by a love for clean code, innovative solutions, and a strong cup of coffee.",
+      "Specializing in JavaScript, React, Node.js, and Python, I thrive on turning complex challenges into elegant, maintainable solutions. Beyond coding, I contribute to open-source projects, write tech blogs, and mentor aspiring developers.",
+    ],
+    skills: ["JavaScript", "React", "Node.js", "Python", "TailwindCSS"],
+  },
+  stats: [
+    { icon: "fas fa-folder-open", value: "152", label: "Repositories" },
+    { icon: "fas fa-code-commit", value: "4.2k", label: "Commits" },
+    { icon: "fas fa-code-pull-request", value: "87", label: "PRs Merged" },
+  ],
+  aboutContent: {
+    github: {
+        username: "johnpeter877",
+        avatar: "/img/male2.jpg",
+        url: "https://github.com/johnpeter877",
+    },
+    cta: {
+        text: "Follow me on GitHub",
+        href: "https://github.com/johnpeter877",
+        icon: "github",
+        count: 0
+    },
+    name: "John Peterson",
+    jobTitle: "Full-Stack Developer & Open Source Enthusiast"
+}
+};
+---
+
+<section class="relative pt-16 pb-12 px-6 lg:px-12 max-w-6xl mx-auto z-10">
+  <!-- Editor Window -->
+  <div class="bg-gray-950 rounded-lg border border-gray-800 shadow-2xl overflow-hidden mb-8">
+    <!-- Editor Header -->
+    <div class="bg-gray-800 p-4 flex items-center gap-2">
+      <div class="flex gap-1">
+        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+      </div>
+      <div class="text-xs text-gray-400 font-code ms-auto">
+        <span class="text-green-400">./</span>{content.header.title}
+      </div>
+    </div>
+
+    <!-- Editor Content -->
+    <div class="p-8 grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <!-- Left Sidebar: Profile Card -->
+      <div class="lg:col-span-1 bg-gray-950/50 p-6 rounded-lg border border-gray-800">
+        <div class="text-center mb-6" data-animate="fadeInUp" data-delay="100">
+          <div class="w-24 h-24 rounded-full mx-auto overflow-hidden mb-4">
+            <img src={content.profile.image} alt={content.profile.imageAlt} class="w-full h-full object-cover" />
+          </div>
+          <h2 class="text-2xl font-bold font-code text-white">{content.profile.name}</h2>
+          <p class="text-green-400 text-lg">{content.profile.title}</p>
+        </div>
+        <div class="space-y-4" data-animate="fadeInUp" data-delay="200">
+          <div class="flex items-center gap-3">
+            <i class="fas fa-envelope text-green-400 led-glow"></i>
+            <a href={`mailto:${content.profile.email}`} class="text-gray-300 hover:text-green-400">{content.profile.email}</a>
+          </div>
+          <div class="flex items-center gap-3">
+            <i class="fas fa-map-marker-alt text-green-400 led-glow"></i>
+            <span>{content.profile.location}</span>
+          </div>
+          <div class="flex gap-4 justify-center">
+            {content.profile.socials.map((social) => (
+              <a
+                href={social.url}
+                target="_blank"
+                class="text-gray-300 hover:text-green-400 text-xl transition-transform hover:scale-110"
+              >
+                <i class={social.icon}></i>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content: About Text -->
+      <div class="lg:col-span-2 space-y-6">
+        <h3 class="text-3xl font-bold font-code text-white mb-4" data-animate="fadeInUp" data-delay="100">
+          {content.content.title}
+        </h3>
+        {content.content.paragraphs.map((paragraph, index) => (
+          <p class="text-gray-300 leading-relaxed" data-animate="fadeInUp" data-delay="200">
+            {paragraph}
+          </p>
+        ))}
+        <div class="flex flex-wrap gap-2 mt-4" data-animate="fadeInUp" data-delay="300">
+          {content.content.skills.map((skill) => (
+            <span class="px-3 py-1 bg-gray-700/20 text-gray-300 rounded-full text-sm">{skill}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Editor Footer: Stats -->
+    <div class="bg-gray-800/50 p-6 border-t border-gray-700">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+        {content.stats.map((stat, index) => (
+          <div data-animate="fadeInUp" data-delay={`${index * 100 + 400}`}>
+            <i class={`${stat.icon} text-green-400 text-3xl mb-2 led-glow`}></i>
+            <div class="text-2xl font-bold text-white">{stat.value}</div>
+            <div class="text-xs text-gray-400">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <GithubCard
+        github={content.aboutContent.github}
+        cta={content.aboutContent.cta}
+        name={content.aboutContent.name}
+        jobTitle={content.aboutContent.jobTitle}
+      />
+
+  <!-- Coffee Cup -->
+  <Coffee class="bottom-10 right-5" />
+</section>

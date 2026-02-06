@@ -1,0 +1,44 @@
+---
+interface Props {
+  avatar: string;
+  name: string;
+  role: string;
+  quote: string;
+  rating: number;
+  index: number;
+}
+
+const { avatar, name, role, quote, rating, index } = Astro.props as Props;
+---
+
+<div
+  class="bg-gray-950 p-6 rounded-lg border border-gray-800 shadow-lg hover:shadow-xl transition-shadow transform hover:-translate-y-1"
+  data-animate="fadeInUp"
+  data-delay={(index + 1) * 100}
+>
+  <div class="flex items-center gap-4 mb-4">
+    <div class="w-12 h-12 rounded-full overflow-hidden bg-gray-700 flex items-center justify-center">
+      <img
+        src={avatar}
+        alt={name}
+        class="size-12"
+      />
+    </div>
+    <div>
+      <h3 class="text-lg font-bold font-code text-white">
+        {name}
+      </h3>
+      <p class="text-gray-400 text-sm">{role}</p>
+    </div>
+  </div>
+  <p class="text-gray-300 mb-4">{quote}</p>
+  <div class="flex gap-2">
+    {
+      Array.from({ length: 5 }).map((_, i) => (
+        <i
+          class={`fas fa-star ${i < rating ? 'text-yellow-400' : 'text-gray-600'}`}
+        ></i>
+      ))
+    }
+  </div>
+</div>

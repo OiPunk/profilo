@@ -1,0 +1,40 @@
+---
+export interface SkillCardProps {
+  skills: { name: string; percentage: number }[];
+  technologies: string[];
+}
+
+interface Props extends SkillCardProps {
+  skills: { name: string; percentage: number }[];
+  technologies: string[];
+}
+
+const { skills, technologies } = Astro.props as Props;
+---
+
+<div class="bg-gray-950 rounded-lg p-6 border border-gray-800 shadow-lg">
+  <h3 class="text-xl font-bold font-code text-white mb-4 flex items-center gap-2">
+    <i class="fas fa-code text-green-400"></i> My Toolbox
+  </h3>
+  <div class="space-y-4">
+    {skills.map((skill: { name: string; percentage: number }) => (
+      <div>
+        <div class="flex justify-between mb-1">
+          <span class="text-gray-300">{skill.name}</span>
+          <span class="text-gray-400 text-sm">{skill.percentage}%</span>
+        </div>
+        <div class="h-2 bg-gray-700 rounded-full">
+          <div
+            class="progress-fill h-full bg-gradient-to-r from-green-400 to-green-500 rounded-full"
+            data-progress={skill.percentage}
+          ></div>
+        </div>
+      </div>
+    ))}
+  </div>
+  <div class="mt-6 flex flex-wrap gap-2">
+    {technologies.map((tech: string) => (
+      <span class="px-3 py-1 bg-gray-700/20 text-gray-300 rounded-full text-sm">{tech}</span>
+    ))}
+  </div>
+</div>

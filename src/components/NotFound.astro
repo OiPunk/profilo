@@ -1,0 +1,58 @@
+---
+import Button from "./ui/Button.astro";
+import Coffee from "./ui/Coffee.astro";
+
+interface NotFoundContent {
+  title: string;
+  subtitle: string;
+  message: string;
+  buttonText: string;
+  buttonIcon: string;
+}
+
+const content: NotFoundContent = {
+  title: "404",
+  subtitle: "Page Not Found!",
+  message: "Oops! The page you are looking for does not exist. It may have been moved, deleted, or the link is broken.",
+  buttonText: "Return to Home",
+  buttonIcon: "fas fa-home",
+};
+---
+
+<section class="max-w-4xl mx-auto py-16 px-6 lg:px-12 relative z-10">
+  <!-- Terminal Window -->
+  <div class="bg-gray-950 rounded-lg border border-gray-800 terminal-shadow overflow-hidden">
+    <!-- Terminal Header -->
+    <div class="bg-gray-800 p-4 flex items-center gap-2">
+      <div class="flex gap-1">
+        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+      </div>
+      <div class="text-xs text-gray-400 font-code ms-auto">
+        <span class="text-green-400">./</span>{content.title}
+      </div>
+    </div>
+    
+    <!-- Terminal Content -->
+    <div class="p-6 md:p-8 xl:py-16 text-center">
+        <h1 class="text-5xl lg:text-7xl font-bold font-code text-white mb-4 error-text" data-animate="fadeInUp" data-delay="100">
+        {content.title}
+        </h1>
+        <p class="text-3xl text-gray-300 font-medium font-code mb-1" data-animate="fadeInUp" data-delay="300">
+        {content.subtitle}
+        </p>
+        <p class="text-gray-400 mb-8 max-w-md mx-auto" data-animate="fadeInUp" data-delay="500">
+            {content.message}
+        </p>
+        <div data-animate="fadeInUp" data-delay="700">
+            <Button href="/" link={true} variant="filled" color="green">
+                <i class={content.buttonIcon}></i> {content.buttonText}
+            </Button>
+        </div>
+    </div>
+  </div>
+
+  <!-- Coffee Cup -->
+  <Coffee class="bottom-10 right-5" />
+</section>

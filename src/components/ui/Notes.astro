@@ -1,0 +1,24 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  rotation: number | string;
+  class?: string;
+}
+
+const { title, description, rotation, class: className } = Astro.props as Props;
+---
+
+<div
+  class={`absolute w-12 h-12 rounded sticky-note ${className || ''}`}
+  style={`--rotation: ${typeof rotation === 'number' ? `${rotation}deg` : rotation}`}
+>
+  <div class="w-full h-full p-1">
+    <div class="w-full text-center text-gray-800 font-bold text-[0.4rem] lg:text-[0.5rem]">
+      {title}
+    </div>
+    <div class="w-full text-center text-gray-800 text-[0.4rem] leading-tight">
+      {description}
+    </div>
+  </div>
+</div>

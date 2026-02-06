@@ -1,0 +1,46 @@
+<!-- Tablet -->
+<div class="absolute bottom-2 right-8 w-2/5 aspect-video" data-animate="fadeInRight" data-delay="100">
+    <div class="absolute bottom-2 sm:bottom-7 w-full h-4 bg-gray-700 right-0 rounded-b-lg"></div>
+    <div class="absolute bottom-[calc(25%-1px)] w-full aspect-video bg-gray-700 border border-gray-700 rounded-t-lg overflow-hidden flex flex-col origin-bottom px-1">
+        <div class="h-1 bg-gray-700 flex items-center justify-center">
+        <div class="w-1 h-1 bg-gray-500 rounded-full"></div>
+        </div>
+        <div class="flex-1 bg-black flex">
+        <div class="w-1/6 bg-gray-800 flex flex-col items-center py-1 gap-1">
+            <div class="w-3 h-3 bg-gray-700 rounded"></div>
+            <div class="w-3 h-3 bg-gray-700 rounded"></div>
+            <div class="w-3 h-3 bg-green-700 rounded"></div>
+            <div class="w-3 h-3 bg-gray-700 rounded"></div>
+        </div>
+        <div class="flex-1 p-1">
+            <pre class="font-code text-[0.4rem] lg:text-[0.5rem] leading-tight">
+<span class="text-purple-400">import</span> <span class="text-blue-400">React</span> <span class="text-purple-400">from</span> <span class="text-green-400">'react'</span>;
+
+<span class="text-purple-400">const</span> <span class="text-yellow-400">DevWorkspace</span> = () =&gt; &#123;
+  <span class="text-purple-400">const</span> [<span class="text-blue-400">isLoading</span>, <span class="text-blue-400">setIsLoading</span>] = <span class="text-yellow-400">React</span>.<span class="text-blue-400">useState</span>(<span class="text-orange-400">true</span>);
+  
+  <span class="text-purple-400">React</span>.<span class="text-blue-400">useEffect</span>(() =&gt; &#123;
+    <span class="text-purple-400">const</span> <span class="text-blue-400">timer</span> = <span class="text-blue-400">setTimeout</span>(() =&gt; &#123;
+      <span class="text-blue-400">setIsLoading</span>(<span class="text-orange-400">false</span>);
+    &#125;, <span class="text-orange-400">2000</span>);
+    
+    <span class="text-purple-400">return</span> () =&gt; <span class="text-blue-400">clearTimeout</span>(<span class="text-blue-400">timer</span>);
+  &#125;, []);
+  
+  <span class="text-purple-400">return</span> (
+    &lt;<span class="text-blue-400">div</span> <span class="text-yellow-400">className</span>=<span class="text-green-400">"workspace"</span>&gt;
+      &#123;<span class="text-blue-400">isLoading</span> ? (
+        &lt;<span class="text-blue-400">LoadingScreen</span> /&gt;
+      ) : (
+        &lt;<span class="text-blue-400">Projects</span> /&gt;
+      )&#125;
+    &lt;/<span class="text-blue-400">div</span>&gt;
+  );
+&#125;;
+
+<span class="text-purple-400">export</span> <span class="text-purple-400">default</span> <span class="text-yellow-400">DevWorkspace</span>;
+                </pre>
+            </div>
+        </div>
+    </div>
+</div>

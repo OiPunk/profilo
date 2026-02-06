@@ -1,0 +1,130 @@
+---
+import PricingCard from './ui/PricingCard.astro';
+import WordColor from './ui/WordColor.astro';
+
+interface PricingPlan {
+  title: string;
+  icon: string;
+  price: string;
+  priceUnit: string;
+  description: string;
+  features: string[];
+  cta: {
+    text: string;
+    href: string;
+    isPrimary: boolean;
+  };
+  isPopular?: boolean;
+}
+
+interface PricingSectionContent {
+  header: {
+    title: string;
+    subtitle: string;
+  };
+  plans: PricingPlan[];
+}
+
+const content: PricingSectionContent = {
+  header: {
+    title: "Pricing Plans",
+    subtitle: "Choose a plan that suits your needs. From personal portfolios to enterprise solutions, we've got you covered.",
+  },
+  plans: [
+    {
+      title: "Basic",
+      icon: "fas fa-terminal",
+      price: "$99",
+      priceUnit: "/project",
+      description: "Perfect for small personal projects or portfolios.",
+      features: [
+        "Single-page website",
+        "Responsive design",
+        "Basic SEO",
+        "1 month support",
+      ],
+      cta: {
+        text: "Get Started",
+        href: "/contact",
+        isPrimary: false,
+      },
+    },
+    {
+      title: "Pro",
+      icon: "fas fa-rocket",
+      price: "$499",
+      priceUnit: "/project",
+      description: "Ideal for businesses needing a robust online presence.",
+      features: [
+        "Multi-page website",
+        "Advanced SEO",
+        "CMS integration",
+        "3 months support",
+      ],
+      cta: {
+        text: "Get Started",
+        href: "/contact",
+        isPrimary: true,
+      },
+      isPopular: true,
+    },
+    {
+      title: "Enterprise",
+      icon: "fas fa-server",
+      price: "Custom",
+      priceUnit: "/project",
+      description: "Tailored solutions for large-scale projects.",
+      features: [
+        "Custom development",
+        "API integrations",
+        "Dedicated support",
+        "Scalable infrastructure",
+      ],
+      cta: {
+        text: "Contact Us",
+        href: "/contact",
+        isPrimary: false,
+      },
+    },
+  ],
+};
+---
+
+<section class="py-16 bg-gray-900/50 relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6 lg:px-12 relative z-10">
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <h2 
+        class="text-3xl lg:text-4xl font-bold font-code inline-block relative text-white mb-1"
+        data-animate="fadeInUp"
+        data-delay="100"
+      >
+        <WordColor text={content.header.title} wordsPerColor={1} />
+        <div class="absolute -bottom-2 left-0 w-full h-1 bg-green-500 opacity-70"></div>
+      </h2>
+      <p class="text-gray-400 mt-4 max-w-2xl mx-auto"
+        data-animate="fadeInUp"
+        data-delay="200"
+      >
+        {content.header.subtitle}
+      </p>
+    </div>
+
+    <!-- Pricing Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {content.plans.map((plan, index) => (
+        <PricingCard
+          title={plan.title}
+          icon={plan.icon}
+          price={plan.price}
+          priceUnit={plan.priceUnit}
+          description={plan.description}
+          features={plan.features}
+          cta={plan.cta}
+          isPopular={plan.isPopular}
+          delay={(index + 1) * 200}
+        />
+      ))}
+    </div>
+  </div>
+</section>

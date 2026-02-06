@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageSection from '../components/PageSection.astro';
+import { pageData } from '../data/dataPage';
+
+const page = pageData.privacy;
+const title = page.title;
+const description = page.subtitle;
+---
+
+<Layout title={title} description={description}>
+  <PageSection page={page} />
+</Layout>

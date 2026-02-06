@@ -1,0 +1,141 @@
+---
+import Button from './ui/Button.astro';
+import Input from './ui/Input.astro';
+import Textarea from './ui/Textarea.astro';
+import SocialLink from './ui/SocialLink.astro';
+import WordColor from './ui/WordColor.astro';
+import Coffee from './ui/Coffee.astro';
+
+export interface ContactContentType {
+  title: string;
+  description: string;
+  form: { title: string; icon: string };
+  contactInfo: { icon: string; text: string; href?: string }[];
+  socialLinks: { icon: string; href: string }[];
+}
+
+const contactContent: ContactContentType = {
+  title: 'Get in Touch',
+  description:
+    'Have a project in mind or just want to chat about code? Drop me a message, and let’s make things happen!',
+  form: {
+    title: 'Send a Message',
+    icon: 'fas fa-envelope',
+  },
+  contactInfo: [
+    {
+      icon: 'fas fa-envelope',
+      text: 'weiguang@example.com',
+      href: 'mailto:weiguang@example.com',
+    },
+    {
+      icon: 'fab fa-github',
+      text: 'github.com/OiPunk',
+      href: 'https://github.com/OiPunk',
+    },
+    { icon: 'fas fa-map-marker-alt', text: 'China' },
+  ],
+  socialLinks: [
+    { icon: 'fab fa-github', href: 'https://github.com/OiPunk' },
+  ],
+};
+---
+
+<section
+  id="contact"
+  class="py-16 bg-gray-900/50 relative overflow-hidden"
+>
+  <div class="max-w-6xl mx-auto px-6 lg:px-12 relative z-10">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl lg:text-4xl font-bold font-code inline-block relative text-white mb-1">
+        <WordColor text={contactContent.title} wordsPerColor={2} />
+        <div class="absolute -bottom-2 left-0 w-full h-1 bg-green-500 opacity-70"></div>
+      </h2>
+      <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
+        {contactContent.description}
+      </p>
+    </div>
+    <div
+      class="relative bg-gray-950 p-8 rounded-lg border border-gray-800 shadow-lg overflow-hidden" data-animate="fadeInUp" data-delay="100">
+      <div class="absolute -bottom-20 -right-20 size-56 bg-gray-800/20 border-2 border-gray-700 rounded-full overflow-hidden">
+        <div class="absolute inset-0 bg-hero opacity-[.03]"></div>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 relative">
+        <div>
+          <h3 class="text-xl font-bold font-code text-white mb-6 flex items-center gap-2">
+            <i class={`${contactContent.form.icon} text-green-400 led-glow`}></i>
+            {contactContent.form.title}
+          </h3>
+          <form class="space-y-6">
+            <div>
+              <label for="name" class="block text-gray-300 mb-2 font-medium">Name</label>
+              <Input
+                type="text"
+                id="name"
+                placeholder="Your Name"
+                required
+              />
+            </div>
+            <div>
+              <label for="email" class="block text-gray-300 mb-2 font-medium">Email</label>
+              <Input type="email"
+                id="email"
+                placeholder="Your Email"
+                required
+              />
+            </div>
+            <div>
+              <label for="message" class="block text-gray-300 mb-2 font-medium">Message</label>
+              <Textarea
+                id="message"
+                x-model="form.message"
+                placeholder="Your Message"
+                rows={5}
+                required
+              />
+            </div>
+            <Button
+              submit={true}
+              color="green"
+              variant="filled"
+              class="w-full">
+              <i class="fas fa-paper-plane"></i> Send Message
+            </Button>
+          </form>
+        </div>
+        <div class="space-y-8">
+          <div class="relative">
+            <h3 class="text-xl font-bold font-code text-white mb-6 flex items-center gap-2">
+              Contact Info
+            </h3>
+            <ul class="space-y-4 text-gray-300">
+              {contactContent.contactInfo.map((info) => (
+                <li class="flex items-center gap-3">
+                  <i class={`${info.icon} text-green-400`}></i>
+                  {info.href ? (
+                    <a href={info.href}  class="hover:text-green-400 transition-colors">
+                      {info.text}
+                    </a>
+                  ) : (
+                    <span>{info.text}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="relative">
+            <h3 class="text-xl font-bold font-code text-white mb-6 flex items-center gap-2">
+              Connect with Me
+            </h3>
+            <div class="flex gap-6">
+              {contactContent.socialLinks.map((link) => (
+                <SocialLink href={link.href} icon={link.icon} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+      <Coffee class="bottom-10 right-10" />
+    </div>
+  </div>
+</section>

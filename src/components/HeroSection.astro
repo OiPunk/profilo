@@ -1,0 +1,170 @@
+---
+import Button from './ui/Button.astro';
+import Coffee from './ui/Coffee.astro';
+import Notes from './ui/Notes.astro';
+import Tablet from './ui/Tablet.astro';
+;
+export interface HeroContentType {
+  subtitle: string;
+  title: string;
+  description: string;
+  buttons: { text: string; href: string; icon: string; variant:'filled' | 'outline'; color: 'green' | 'gray' }[];
+}
+
+const heroContent: HeroContentType = {
+  subtitle: "Hello World! I'm",
+  title: 'Weiguang Li',
+  description:
+    'Java Backend Engineer specializing in Spring Boot, distributed systems, and microservices architecture. Passionate about open source and continuous learning.',
+  buttons: [
+    {
+      text: 'View Projects',
+      href: '#projects',
+      icon: 'fas fa-code',
+      color: 'green',
+      variant: 'filled',
+    },
+    {
+      text: 'Contact Me',
+      href: '#contact',
+      icon: 'fas fa-envelope',
+      color: 'green',
+      variant: 'outline',
+    },
+  ],
+};
+---
+
+<section id="hero" class="relative xl:min-h-screen overflow-hidden pt-20 pb-16">
+  <div class="absolute inset-0 bg-hero opacity-[.03]"></div>
+  <div class="max-w-6xl mx-auto px-6 lg:px-12 relative z-10">
+    <div class="flex flex-col items-center gap-8 xl:gap-12">
+      <div class="w-full text-center space-y-6 xl:pt-8">
+        <div class="space-y-2">
+          <h2 class="text-green-500 text-xl md:text-2xl font-semibold">
+            {heroContent.subtitle}
+          </h2>
+          <h1  class="text-4xl lg:text-6xl font-bold font-code tracking-tight text-white" data-animate="fadeInUp" data-delay="100">
+            {heroContent.title}
+          </h1>
+        </div>
+        <p class="text-lg text-gray-300 max-w-xl mx-auto leading-relaxed" data-animate="fadeInUp" data-delay="300">
+          {heroContent.description}
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 py-2" data-animate="fadeInUp" data-delay="500">
+          {heroContent.buttons.map((button, index) => (
+            <Button
+              href={button.href}
+              link={true}
+              variant={button.variant}
+              color={button.color}
+              size="md"
+              smooth={true}
+            > <i class={button.icon}></i>{button.text}</Button>
+          ))}
+        </div>
+      </div>
+      <div class="w-full xl:w-3/4 mx-auto relative mb-12">
+        <div class="workspace-container relative w-full aspect-video">
+          <!-- Neon effects -->
+          <div class="absolute left-0 w-96 h-96 bg-purple-400/50 top-0 blur-3xl"></div>
+          <div class="absolute right-0 w-96 h-96 bg-green-400/50 top-0 blur-3xl"></div>
+          <!-- Desk Surface -->
+          <div class="absolute inset-x-0 -bottom-8 w-full h-40 border-2 border-gray-400 rounded-lg bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900 neon-desk"></div>
+          <!-- Monitor -->
+          <div class="absolute top-0 left-1/2 w-4/5 transform -translate-x-1/2 aspect-video bg-black rounded-lg border border-gray-600 shadow-lg flex flex-col mb-24">
+            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-1/2 h-4 bg-gray-700 rounded-b-sm"></div>
+            <div class="flex-1 p-4 bg-gray-700 relative">
+              <div class="absolute inset-2 bg-black rounded border border-gray-700 flex flex-col overflow-hidden">
+                <div class="bg-gray-800 p-1 flex items-center gap-1">
+                  <div class="flex gap-1 ml-1">
+                    <div class="w-2 h-2 bg-red-500 rounded-full"></div>
+                    <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                  </div>
+                  <div class="text-[10px] sm:text-xs text-gray-400 mx-auto font-code">
+                    weiguang@dev-workspace
+                  </div>
+                </div>
+                <div class="p-2 flex-1 font-code text-xs lg:text-sm">
+                  <pre class="text-green-500 mt-1">
+          _____  
+         /     \    <span class="text-yellow-400">weiguang@dev-workspace</span>
+        | () () |   <span class="text-gray-400">------------------</span>
+         \  ^  /    <span class="text-purple-400">OS:</span> <span data-typing="1" class="text-gray-300"></span>
+          |||||     <span class="text-purple-400">Host:</span> <span data-typing="2" class="text-gray-300"></span>
+          |||||     <span class="text-purple-400">Kernel:</span> <span data-typing="3" class="text-gray-300"></span>
+                    <span class="text-purple-400">Uptime:</span> <span data-typing="4" class="text-gray-300"></span>
+                    <span class="text-purple-400">Languages:</span> <span data-typing="5" class="text-gray-300"></span>
+                    <span class="text-purple-400">Editor:</span> <span data-typing="6" class="text-gray-300"></span>
+                    <span class="text-purple-400">Frameworks:</span> <span data-typing="7" class="text-gray-300"></span>
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Tablet -->
+          <Tablet />
+          <!-- Sticky Notes -->
+          <Notes
+            title="TODO:"
+            description="Fix navbar bug"
+            rotation={-15}
+            class="top-16 left-12 bg-yellow-200"
+          />
+          <Notes
+            title="IDEA:"
+            description="New portfolio"
+            rotation="10deg"
+            class="top-32 left-12 max-sm:hidden bg-blue-200"
+          />
+          <Coffee class="-bottom-4 md:-bottom-2 left-10" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Typing effect
+  const texts = {
+    1: 'DevOS v4.2.0',
+    2: 'MacBook Pro M3',
+    3: '5.15.0-dev',
+    4: '365 days, 24 hours',
+    5: 'Java, Python, Go',
+    6: 'IntelliJ IDEA / VSCode',
+    7: 'Spring Boot, MySQL, Redis',
+  };
+  const elements = document.querySelectorAll('[data-typing]');
+  let currentIndex = 0;
+
+  function typeText(element: Element, text: string, callback: { (): void; (): void; }) {
+    let i = 0;
+    element.classList.add('typing');
+    const interval = setInterval(() => {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        i++;
+      } else {
+        clearInterval(interval);
+        element.classList.remove('typing');
+        callback();
+      }
+    }, 50);
+  }
+
+  function startTyping() {
+    if (currentIndex < elements.length) {
+      const element = elements[currentIndex];
+      const key = element.getAttribute('data-typing');
+      const text = key ? texts[key as unknown as keyof typeof texts] : '';
+      typeText(element, text, () => {
+        currentIndex++;
+        startTyping();
+      });
+    }
+  }
+
+  startTyping();
+</script>

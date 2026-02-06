@@ -1,0 +1,22 @@
+---
+interface Props {
+  href: string;
+  text: string;
+  icon?: string;
+  className?: string;
+  onClick?: string;
+  smooth?: boolean;
+  active?: boolean;
+}
+
+const { href, icon, text, className, onClick, smooth = false, active = false } = Astro.props as Props;
+---
+
+<a
+  href={href}
+  data-type={smooth ? "smooth" : undefined}
+  class={`group relative text-gray-300 hover:text-green-400 transition-colors font-medium ${active ? 'active' : ''} ${className || ''}`}
+  x-on:click={onClick}
+>
+  {icon && <i class={icon}></i>} {text}
+</a>

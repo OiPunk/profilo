@@ -1,0 +1,77 @@
+---
+// Button.astro
+interface Props {
+  variant: 'filled' | 'outline';
+  color: 'green' | 'gray';
+  class?: string;
+  link?: boolean;
+  href?: string;
+  smooth?: boolean;
+  download?: boolean;
+  submit?: boolean;
+  size?: 'md' | 'lg' | 'sm';
+}
+
+const {
+  variant = 'filled',
+  color = 'green',
+  class: className,
+  link = false,
+  href,
+  smooth = false,
+  download = false,
+  submit = false,
+  size = 'md',
+} = Astro.props;
+
+// Base classes for all buttons
+const baseClasses = 'font-bold rounded-lg transition-all inline-flex items-center justify-center gap-2';
+
+// Size classes
+const sizeClasses = {
+  sm: 'px-4 py-2 text-sm',
+  md: 'px-8 py-3',
+  lg: 'px-10 py-4 text-lg',
+};
+
+// Variant and color classes
+const variantClasses = {
+  filled: {
+    green: 'bg-green-500 hover:bg-green-600 text-gray-900',
+    gray: 'bg-gray-800 hover:bg-gray-900 text-white',
+  },
+  outline: {
+    green: 'bg-transparent hover:bg-gray-800 text-green-400 border border-green-400',
+    gray: 'bg-transparent hover:bg-gray-900 text-gray-200 border border-gray-400',
+  },
+};
+
+// Combine all classes
+const classes = [
+  baseClasses,
+  sizeClasses[size],
+  variantClasses[variant][color],
+  className,
+].filter(Boolean).join(' ');
+
+---
+
+{
+  link ? (
+    <a
+      href={href}
+      class={classes}
+      data-type={smooth ? 'smooth' : undefined}
+      download={download ? true : undefined}
+    >
+      <slot />
+    </a>
+  ) : (
+    <button
+      class={classes}
+      type={submit ? 'submit' : 'button'}
+    >
+      <slot />
+    </button>
+  )
+}

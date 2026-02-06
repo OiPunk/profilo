@@ -1,0 +1,13 @@
+---
+interface Props {
+  className?: string;
+  href?: string;
+}
+
+const { href="/", className } = Astro.props as Props;
+---
+
+<a href={href} class={`flex items-center gap-2 ${className || ''}`}>
+  <i class="fas fa-code text-green-400 text-2xl led-glow"></i>
+  <span class="text-xl font-bold font-code text-white">Weiguang Li</span>
+</a>

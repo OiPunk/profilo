@@ -1,0 +1,65 @@
+---
+import { blogItems, type BlogItemType } from '../data/blogItems';
+import BlogCard from './ui/BlogCard.astro';
+import Button from './ui/Button.astro';
+import WordColor from './ui/WordColor.astro';
+
+export interface BlogSectionType {
+  title: string;
+  description: string;
+  viewAll: { text: string; href: string; icon: string };
+}
+
+const blogSection: BlogSectionType = {
+  title: 'Latest Blog Posts',
+  description:
+    'Dive into my thoughts on coding, tech trends, and developer life. Explore my latest posts below.',
+  viewAll: {
+    text: 'View All Posts',
+    href: '/blog',
+    icon: 'fas fa-book-open',
+  },
+};
+---
+
+<section
+  id="blog"
+  class="py-20 bg-dark border-y border-gray-800 relative overflow-hidden"
+>
+  <div class="absolute inset-0 bg-square opacity-[.05]"></div>
+  <div class="max-w-6xl mx-auto px-6 lg:px-12 relative z-10">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl lg:text-4xl font-bold font-code inline-block relative text-white mb-1">
+        <WordColor text={blogSection.title} wordsPerColor={1} />
+        <div class="absolute -bottom-2 left-0 w-full h-1 bg-green-500 opacity-70"></div>
+      </h2>
+      <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
+        {blogSection.description}
+      </p>
+    </div>
+    <div class="flex flex-col gap-12">
+      <div class="space-y-8">
+        {blogItems.map((post, index) => (
+          <BlogCard
+            title={post.title}
+            excerpt={post.excerpt}
+            image={post.image}
+            date={post.date}
+            tags={post.tags}
+            url={post.url}
+            index={index} />
+        ))}
+      </div>
+      <div class="text-center">
+        <Button
+          href={blogSection.viewAll.href}
+          variant='filled'
+          link={true}
+          color='green'>
+        {blogSection.viewAll.text}
+        <i class={blogSection.viewAll.icon}></i>
+      </Button>
+      </div>
+    </div>
+  </div>
+</section>
