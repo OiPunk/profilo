@@ -28,7 +28,7 @@ export interface BlogItemType {
 const defaultAuthor: Author = {
   "name": "Weiguang Li",
   "bio": "Java Backend Engineer specializing in Spring Boot, distributed systems, and microservices. Passionate about clean code and continuous learning.",
-  "image": "/img/male2.jpg",
+  "image": "/portfolio/img/male2.jpg",
   "social": {
     "github": "https://github.com/OiPunk",
     "linkedin": "https://linkedin.com/in/",
@@ -40,7 +40,7 @@ export const blogItems: BlogItemType[] = [
   {
     title: "Spring IoC Annotation Usage",
     excerpt: "Master Spring IoC annotation-based configuration including @Component, @Autowired, @Qualifier, and component scanning for enterprise applications.",
-    image: '/img/blog1.jpg',
+    image: '/portfolio/img/blog1.jpg',
     url: '/blog/2020-04-03-spring-ioc',
     date: 'April 3, 2020',
     category: 'Spring',
@@ -73,7 +73,7 @@ package com.oi.controller;import com.oi.dao.PersonDao;import com.oi.service.Pers
   {
     title: "MySQL Transaction Test Cases",
     excerpt: "Comprehensive test cases for MySQL transaction isolation levels covering dirty reads, non-repeatable reads, and phantom reads with practical SQL examples.",
-    image: '/img/blog2.jpg',
+    image: '/portfolio/img/blog2.jpg',
     url: '/blog/2020-05-03-mysql',
     date: 'May 3, 2020',
     category: 'Database',
@@ -99,7 +99,7 @@ set session transaction isolation level repeatable read;A:start transaction;A:se
   {
     title: "Java Memory Model (JMM)",
     excerpt: "Deep dive into Java Memory Model covering CPU cache coherence, MESI protocol, memory barriers, happens-before relationships, and volatile semantics.",
-    image: '/img/blog3.jpg',
+    image: '/portfolio/img/blog3.jpg',
     url: '/blog/2020-05-13-java',
     date: 'May 13, 2020',
     category: 'Java',
@@ -195,7 +195,7 @@ Modified改过, 再加载 Exclusive独享 Shared我读的时候别人也在读 I
   {
     title: "IoC Container Basics",
     excerpt: "Complete guide to Spring IoC container basics including XML configuration, dependency injection, bean scopes, lazy loading, and autowiring strategies.",
-    image: '/img/blog4.jpg',
+    image: '/portfolio/img/blog4.jpg',
     url: '/blog/2020-05-22-ioc',
     date: 'May 22, 2020',
     category: 'Spring',
@@ -225,7 +225,7 @@ import com.oi.bean.Person;import org.springframework.context.ApplicationContext;
   {
     title: "Java Concurrent Programming",
     excerpt: "Comprehensive guide to Java concurrency covering threads, synchronized, locks, concurrent collections, thread pools, and JUC utilities.",
-    image: '/img/blog5.jpg',
+    image: '/portfolio/img/blog5.jpg',
     url: '/blog/2020-05-23-java',
     date: 'May 23, 2020',
     category: 'Backend',
@@ -246,7 +246,7 @@ package com.oi.juc.c_000;public class T03_Sleep_Yield_Join {    public static vo
   {
     title: "Introduction to Spring Framework",
     excerpt: "Getting started with Spring Framework fundamentals including IoC container, dependency injection principles, and core module architecture.",
-    image: '/img/blog6.jpg',
+    image: '/portfolio/img/blog6.jpg',
     url: '/blog/2020-05-23-spring',
     date: 'May 23, 2020',
     category: 'Spring',
@@ -264,7 +264,7 @@ Spring makes it easy to create Java enterprise applications. It provides everyth
   {
     title: "Nginx and Tengine Deep Dive",
     excerpt: "High-performance web server configuration guide covering Nginx and Tengine setup, reverse proxy, load balancing, and optimization techniques.",
-    image: '/img/blog1.jpg',
+    image: '/portfolio/img/blog1.jpg',
     url: '/blog/2020-06-12-nginxtengine',
     date: 'June 12, 2020',
     category: 'DevOps',
@@ -294,7 +294,7 @@ Spring makes it easy to create Java enterprise applications. It provides everyth
   {
     title: "MySQL Index Optimization Case Study",
     excerpt: "Real-world MySQL index optimization cases with execution plan analysis, covering index selection, composite indexes, and query tuning.",
-    image: '/img/blog2.jpg',
+    image: '/portfolio/img/blog2.jpg',
     url: '/blog/2020-06-13-mysql',
     date: 'June 13, 2020',
     category: 'Database',
@@ -328,7 +328,7 @@ SET optimizer_switch = 'index_condition_pushdown=off';
   {
     title: "QuickSort Optimization: Dutch Flag & Randomized Pivot",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog3.jpg',
+    image: '/portfolio/img/blog3.jpg',
     url: '/blog/2020-06-13',
     date: 'June 13, 2020',
     category: 'Backend',
@@ -351,7 +351,7 @@ SET optimizer_switch = 'index_condition_pushdown=off';
   {
     title: "Redis: Past, Present and Future",
     excerpt: "Evolution of data storage from files to databases to caching, with comprehensive Redis guide covering data types, persistence, and clustering.",
-    image: '/img/blog4.jpg',
+    image: '/portfolio/img/blog4.jpg',
     url: '/blog/2020-06-15-redis',
     date: 'June 15, 2020',
     category: 'Redis',
@@ -379,7 +379,7 @@ xx: 只能更新</p><p>#### String</p><p><img src="/images/blog/image-2020040911
   {
     title: "MyBatis SQL Mapping File Guide",
     excerpt: "Complete reference for MyBatis SQL mapping files including result maps, dynamic SQL, associations, and advanced mapping techniques.",
-    image: '/img/blog5.jpg',
+    image: '/portfolio/img/blog5.jpg',
     url: '/blog/2020-06-16-mybatis-sql',
     date: 'June 16, 2020',
     category: 'MyBatis',
@@ -408,7 +408,7 @@ package com.mashibing.bean;public class Dog {    private Integer id;    private 
   {
     title: "Introduction to MyBatis",
     excerpt: "Quick start guide to MyBatis ORM framework covering configuration, mappers, CRUD operations, and integration with Spring.",
-    image: '/img/blog6.jpg',
+    image: '/portfolio/img/blog6.jpg',
     url: '/blog/2020-06-16-mybatis',
     date: 'June 16, 2020',
     category: 'MyBatis',
@@ -440,7 +440,7 @@ package com.oi.dao;import com.oi.bean.Emp;public interface EmpD`,
   {
     title: "MyBatis-Plus Code Generator",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog1.jpg',
+    image: '/portfolio/img/blog1.jpg',
     url: '/blog/2020-06-17-mybatis-plus',
     date: 'June 17, 2020',
     category: 'MyBatis',
@@ -476,7 +476,7 @@ package com.mashibing;import com.alibaba.druid.pool.DruidDataSource;import org.j
   {
     title: "Maven Basics",
     excerpt: "Essential Maven guide for Java developers covering project structure, dependencies, plugins, lifecycle phases, and multi-module projects.",
-    image: '/img/blog2.jpg',
+    image: '/portfolio/img/blog2.jpg',
     url: '/blog/2020-06-21-maven',
     date: 'June 21, 2020',
     category: 'Backend',
@@ -501,7 +501,7 @@ aliMavenaliyun Mavenhttp://Maven.aliyun.com/nexus/content/groups/public/central
   {
     title: "GC Principles and JVM Tuning",
     excerpt: "Master garbage collection algorithms and JVM performance tuning including heap sizing, GC selection, and monitoring techniques.",
-    image: '/img/blog3.jpg',
+    image: '/portfolio/img/blog3.jpg',
     url: '/blog/2020-06-23-gcjvm',
     date: 'June 23, 2020',
     category: 'Java',
@@ -574,7 +574,7 @@ aliMavenaliyun Mavenhttp://Maven.aliyun.com/nexus/content/groups/public/central
   {
     title: "Spring Cloud: Eureka & Actuator Basics",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog4.jpg',
+    image: '/portfolio/img/blog4.jpg',
     url: '/blog/2020-06-23-spring-cloud-eurekaactuator',
     date: 'June 23, 2020',
     category: 'Distributed Systems',
@@ -614,7 +614,7 @@ Q：大师大师-服务拆多了怎么办？A：那就再合起来。Q：那太�
   {
     title: "Distributed Transaction Solutions",
     excerpt: "Comprehensive overview of distributed transaction patterns including 2PC, TCC, Saga, and eventual consistency implementations.",
-    image: '/img/blog5.jpg',
+    image: '/portfolio/img/blog5.jpg',
     url: '/blog/2020-07-02',
     date: 'July 2, 2020',
     category: 'Distributed Systems',
@@ -649,7 +649,7 @@ PreCommit是一个缓冲-保证了在最后提交阶段之前各参与节点的�
   {
     title: "MySQL Performance Tuning",
     excerpt: "Complete MySQL tuning guide covering query optimization, index strategies, configuration parameters, and performance monitoring.",
-    image: '/img/blog6.jpg',
+    image: '/portfolio/img/blog6.jpg',
     url: '/blog/2020-07-03-mysql',
     date: 'July 3, 2020',
     category: 'Database',
@@ -669,7 +669,7 @@ import java.sql.Connection;import java.sql.DriverManager;import java.sql.Prepare
   {
     title: "Spring AOP Basics",
     excerpt: "Master Aspect-Oriented Programming in Spring including pointcuts, advice types, annotations, and practical cross-cutting concern examples.",
-    image: '/img/blog1.jpg',
+    image: '/portfolio/img/blog1.jpg',
     url: '/blog/2020-07-04-spring-aop',
     date: 'July 4, 2020',
     category: 'Spring',
@@ -696,7 +696,7 @@ package com.oi.proxy;import com.oi.inter.Calculator;import java.lang.reflect.Inv
   {
     title: "ActiveMQ Deep Dive",
     excerpt: "Complete ActiveMQ guide covering JMS concepts, message patterns, persistence, clustering, and integration with Spring.",
-    image: '/img/blog2.jpg',
+    image: '/portfolio/img/blog2.jpg',
     url: '/blog/2020-07-12-activemq',
     date: 'July 12, 2020',
     category: 'Backend',
@@ -715,7 +715,7 @@ Queue 支持存在多个消费者-但是对一个消息而言-只会有一个消
   {
     title: "MySQL Index Data Structure Analysis",
     excerpt: "Understanding MySQL index internals including B+ tree structure, page organization, and how indexes accelerate query performance.",
-    image: '/img/blog3.jpg',
+    image: '/portfolio/img/blog3.jpg',
     url: '/blog/2020-07-12-mysql',
     date: 'July 12, 2020',
     category: 'Database',
@@ -759,7 +759,7 @@ Queue 支持存在多个消费者-但是对一个消息而言-只会有一个消
   {
     title: "SpringBoot DataSource Configuration",
     excerpt: "Configure single and multiple data sources in Spring Boot with connection pooling, transaction management, and dynamic routing.",
-    image: '/img/blog4.jpg',
+    image: '/portfolio/img/blog4.jpg',
     url: '/blog/2020-07-12-springboot',
     date: 'July 12, 2020',
     category: 'Backend',
@@ -784,7 +784,7 @@ package com.oi.contoller;import org.springframework.beans.factory.annotation.Aut
   {
     title: "Spring MVC Source Code Analysis",
     excerpt: "Deep dive into Spring MVC internals covering DispatcherServlet, handler mappings, view resolvers, and request processing flow.",
-    image: '/img/blog5.jpg',
+    image: '/portfolio/img/blog5.jpg',
     url: '/blog/2020-07-15-spring-mvc',
     date: 'July 15, 2020',
     category: 'Spring',
@@ -805,7 +805,7 @@ private void initHandlerMappings(ApplicationContext context) {		this.handlerMapp
   {
     title: "Spring Boot Source Code Analysis",
     excerpt: "Understanding Spring Boot auto-configuration mechanism, starter dependencies, and application startup process internals.",
-    image: '/img/blog6.jpg',
+    image: '/portfolio/img/blog6.jpg',
     url: '/blog/2020-07-19-spring-boot',
     date: 'July 19, 2020',
     category: 'Backend',
@@ -828,7 +828,7 @@ StopWatch stopWatch = new StopWatch();stopWatch.start();//详细源代码public 
   {
     title: "Advanced Spring MVC Usage",
     excerpt: "Advanced Spring MVC features including interceptors, exception handling, file upload, async processing, and RESTful best practices.",
-    image: '/img/blog1.jpg',
+    image: '/portfolio/img/blog1.jpg',
     url: '/blog/2020-07-20-spring-mvc-2',
     date: 'July 20, 2020',
     category: 'Spring',
@@ -852,7 +852,7 @@ package com.oi.controller;import com.oi.bean.User;import org.springframework.htt
   {
     title: "Feign Principles and Usage",
     excerpt: "Declarative REST client with Feign covering integration with Spring Cloud, load balancing, circuit breakers, and error handling.",
-    image: '/img/blog2.jpg',
+    image: '/portfolio/img/blog2.jpg',
     url: '/blog/2020-07-23-feign',
     date: 'July 23, 2020',
     category: 'Backend',
@@ -893,7 +893,7 @@ package com.mashibing.UserConsumer;import org.springframework.boot.SpringApplica
   {
     title: "Distributed Lock Solutions",
     excerpt: "Implementing distributed locks using Redis and Zookeeper with comparison of different approaches and failure handling strategies.",
-    image: '/img/blog3.jpg',
+    image: '/portfolio/img/blog3.jpg',
     url: '/blog/2020-07-23',
     date: 'July 23, 2020',
     category: 'Distributed Systems',
@@ -935,7 +935,7 @@ stringRedisTemplate 用法https://blog.csdn.net/zzz127333092/article/details/887
   {
     title: "TCP/IP Protocol Illustrated",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog4.jpg',
+    image: '/portfolio/img/blog4.jpg',
     url: '/blog/2020-07-23-tcp-ip',
     date: 'July 23, 2020',
     category: 'Backend',
@@ -967,7 +967,7 @@ DNS: 域名解析</p><p>路由表
   {
     title: "Redis-Based Distributed Lock Implementation",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog5.jpg',
+    image: '/portfolio/img/blog5.jpg',
     url: '/blog/2020-07-23-redis',
     date: 'July 23, 2020',
     category: 'Redis',
@@ -1006,7 +1006,7 @@ if（threadId .equals(redisClient.get(key))）{    del(key)}
   {
     title: "TCP/IP Protocol Deep Dive",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog6.jpg',
+    image: '/portfolio/img/blog6.jpg',
     url: '/blog/2020-07-23-tcp-ip',
     date: 'July 23, 2020',
     category: 'Backend',
@@ -1039,7 +1039,7 @@ if（threadId .equals(redisClient.get(key))）{    del(key)}
   {
     title: "Spring MVC Handler Adapter Source Code Analysis",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog1.jpg',
+    image: '/portfolio/img/blog1.jpg',
     url: '/blog/2020-07-24-spring-mvc',
     date: 'July 24, 2020',
     category: 'Spring',
@@ -1059,7 +1059,7 @@ mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
   {
     title: "LeetCode: Valid Parentheses Solution",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog2.jpg',
+    image: '/portfolio/img/blog2.jpg',
     url: '/blog/2020-07-25-leetcode',
     date: 'July 25, 2020',
     category: 'Backend',
@@ -1090,7 +1090,7 @@ public static boolean isValid(String s) {    if(s == null || s.length == 0) {   
   {
     title: "RestTemplate and Ribbon: Principles and Usage",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog3.jpg',
+    image: '/portfolio/img/blog3.jpg',
     url: '/blog/2020-07-26-resttemplateribbon',
     date: 'July 26, 2020',
     category: 'Backend',
@@ -1140,7 +1140,7 @@ public class LoggingClientHttpRequestInterceptor implements ClientHttpRequestInt
   {
     title: "Zuul Gateway: Principles and Usage",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog4.jpg',
+    image: '/portfolio/img/blog4.jpg',
     url: '/blog/2020-07-28-zuul',
     date: 'July 28, 2020',
     category: 'Distributed Systems',
@@ -1199,7 +1199,7 @@ pre来源uri：/api-driver/test/tokenpre拦截pre 业务逻辑 token:msb coolie
   {
     title: "Spring Cloud Sleuth: Distributed Tracing",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog5.jpg',
+    image: '/portfolio/img/blog5.jpg',
     url: '/blog/2020-07-29-sleuth',
     date: 'July 29, 2020',
     category: 'Distributed Systems',
@@ -1244,7 +1244,7 @@ http://localhost:6010/root/root
   {
     title: "Hystrix: Circuit Breaker Patterns",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog6.jpg',
+    image: '/portfolio/img/blog6.jpg',
     url: '/blog/2020-08-03-hystrix',
     date: 'August 3, 2020',
     category: 'Distributed Systems',
@@ -1277,7 +1277,7 @@ http://localhost:6010/root/root
   {
     title: "MySQL Master-Slave Replication Setup",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog1.jpg',
+    image: '/portfolio/img/blog1.jpg',
     url: '/blog/2020-08-03-mysql',
     date: 'August 3, 2020',
     category: 'Database',
@@ -1314,7 +1314,7 @@ http://localhost:6010/root/root
   {
     title: "MySQL MVCC: Multi-Version Concurrency Control",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog2.jpg',
+    image: '/portfolio/img/blog2.jpg',
     url: '/blog/2020-08-03-mysqlmvcc',
     date: 'August 3, 2020',
     category: 'Database',
@@ -1343,7 +1343,7 @@ DEFAULT CHARSET=utf8;
   {
     title: "MySQL Locking Mechanisms",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog3.jpg',
+    image: '/portfolio/img/blog3.jpg',
     url: '/blog/2020-08-03-mysql',
     date: 'August 3, 2020',
     category: 'Database',
@@ -1392,7 +1392,7 @@ mysql> show status like 'table%';+-----------------------+-------+| Variable_nam
   {
     title: "MySQL Practice Exercises",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog4.jpg',
+    image: '/portfolio/img/blog4.jpg',
     url: '/blog/2020-08-03-mysql',
     date: 'August 3, 2020',
     category: 'Database',
@@ -1411,7 +1411,7 @@ mysql> show status like 'table%';+-----------------------+-------+| Variable_nam
   {
     title: "MySQL Read-Write Splitting",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog5.jpg',
+    image: '/portfolio/img/blog5.jpg',
     url: '/blog/2020-08-03-mysql',
     date: 'August 3, 2020',
     category: 'Database',
@@ -1431,7 +1431,7 @@ master 192.168.85.11slave  192.168.85.12proxy  192-168.85.14
   {
     title: "Java Exceptions and Common Classes",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog6.jpg',
+    image: '/portfolio/img/blog6.jpg',
     url: '/blog/2020-08-03',
     date: 'August 3, 2020',
     category: 'Backend',
@@ -1451,7 +1451,7 @@ master 192.168.85.11slave  192.168.85.12proxy  192-168.85.14
   {
     title: "Java Collections Framework Guide",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog1.jpg',
+    image: '/portfolio/img/blog1.jpg',
     url: '/blog/2020-08-03',
     date: 'August 3, 2020',
     category: 'Backend',
@@ -1477,7 +1477,7 @@ master 192.168.85.11slave  192.168.85.12proxy  192-168.85.14
   {
     title: "Spring AOP: Declarative Transactions",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog2.jpg',
+    image: '/portfolio/img/blog2.jpg',
     url: '/blog/2020-08-04-spring-aop',
     date: 'August 4, 2020',
     category: 'Spring',
@@ -1506,7 +1506,7 @@ import com.oi.bean.Emp;import org.springframework.context.ApplicationContext;imp
   {
     title: "Spring MVC Introduction and Usage",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog3.jpg',
+    image: '/portfolio/img/blog3.jpg',
     url: '/blog/2020-08-04-spring-mvc',
     date: 'August 4, 2020',
     category: 'Spring',
@@ -1540,7 +1540,7 @@ Spring Web MVC is the original web framework built on the Servlet API and has be
   {
     title: "Advanced Spring MVC Usage",
     excerpt: "Advanced Spring MVC features including interceptors, exception handling, file upload, async processing, and RESTful best practices.",
-    image: '/img/blog4.jpg',
+    image: '/portfolio/img/blog4.jpg',
     url: '/blog/2020-08-04-spring-mvc-1',
     date: 'August 4, 2020',
     category: 'Spring',
@@ -1563,7 +1563,7 @@ package com.oi.bean;public class Address {    private String province;    privat
   {
     title: "Dynamic Proxy: JDK vs CGLIB Implementation",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog5.jpg',
+    image: '/portfolio/img/blog5.jpg',
     url: '/blog/2020-08-04-jdkcglib',
     date: 'August 4, 2020',
     category: 'Backend',
@@ -1588,7 +1588,7 @@ private static Class getProxyClass0(ClassLoader loader,                         
   {
     title: "Eureka Service Registry Deep Dive",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog6.jpg',
+    image: '/portfolio/img/blog6.jpg',
     url: '/blog/2020-08-13-eureka',
     date: 'August 13, 2020',
     category: 'Distributed Systems',
@@ -1636,7 +1636,7 @@ eureka:   client:    #设置服务注册中心的URL    service-url:            
   {
     title: "MySQL Execution Plan Analysis",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog1.jpg',
+    image: '/portfolio/img/blog1.jpg',
     url: '/blog/2020-08-13-mysql',
     date: 'August 13, 2020',
     category: 'Database',
@@ -1660,7 +1660,7 @@ explain select * from emp e join dept d on e.deptno = d.deptno join salgrade sg 
   {
     title: "Spring Framework Internals",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
-    image: '/img/blog2.jpg',
+    image: '/portfolio/img/blog2.jpg',
     url: '/blog/2020-08-24-spring',
     date: 'August 24, 2020',
     category: 'Spring',
