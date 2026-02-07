@@ -326,7 +326,7 @@ SET optimizer_switch = 'index_condition_pushdown=off';
     relatedPosts: ["2020-05-03-mysql","2020-07-03-mysql"],
   },
   {
-    title: "快速排序优化——荷兰国旗与随机快排",
+    title: "QuickSort Optimization: Dutch Flag & Randomized Pivot",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog3.jpg',
     url: '/blog/2020-06-13',
@@ -438,7 +438,7 @@ package com.oi.dao;import com.oi.bean.Emp;public interface EmpD`,
     relatedPosts: ["2020-06-16-mybatis-sql","2020-06-17-mybatis-plus"],
   },
   {
-    title: "Mybatis Plus逆向工程",
+    title: "MyBatis-Plus Code Generator",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog1.jpg',
     url: '/blog/2020-06-17-mybatis-plus',
@@ -572,7 +572,7 @@ aliMavenaliyun Mavenhttp://Maven.aliyun.com/nexus/content/groups/public/central
     relatedPosts: ["2020-05-13-java"],
   },
   {
-    title: "Spring Cloud简介-Eureka和Actuator基本使用;",
+    title: "Spring Cloud: Eureka & Actuator Basics",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog4.jpg',
     url: '/blog/2020-06-23-spring-cloud-eurekaactuator',
@@ -933,7 +933,7 @@ stringRedisTemplate 用法https://blog.csdn.net/zzz127333092/article/details/887
     relatedPosts: ["2020-06-23-spring-cloud-eurekaactuator","2020-07-02"],
   },
   {
-    title: "图解TCP/IP；",
+    title: "TCP/IP Protocol Illustrated",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog4.jpg',
     url: '/blog/2020-07-23-tcp-ip',
@@ -965,7 +965,7 @@ DNS: 域名解析</p><p>路由表
     relatedPosts: ["2020-05-23-java","2020-06-13"],
   },
   {
-    title: "基于Redis的分布式锁实现原理",
+    title: "Redis-Based Distributed Lock Implementation",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog5.jpg',
     url: '/blog/2020-07-23-redis',
@@ -1004,7 +1004,7 @@ if（threadId .equals(redisClient.get(key))）{    del(key)}
     relatedPosts: ["2020-06-15-redis"],
   },
   {
-    title: "详解TCP/IP协议",
+    title: "TCP/IP Protocol Deep Dive",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog6.jpg',
     url: '/blog/2020-07-23-tcp-ip',
@@ -1037,7 +1037,7 @@ if（threadId .equals(redisClient.get(key))）{    del(key)}
     relatedPosts: ["2020-05-23-java","2020-06-13"],
   },
   {
-    title: "Spring MVC处理器适配器的源码详解",
+    title: "Spring MVC Handler Adapter Source Code Analysis",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog1.jpg',
     url: '/blog/2020-07-24-spring-mvc',
@@ -1057,7 +1057,7 @@ mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
     relatedPosts: ["2020-04-03-spring-ioc","2020-05-22-ioc"],
   },
   {
-    title: "LeetCode题解--括号配对",
+    title: "LeetCode: Valid Parentheses Solution",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog2.jpg',
     url: '/blog/2020-07-25-leetcode',
@@ -1088,7 +1088,7 @@ public static boolean isValid(String s) {    if(s == null || s.length == 0) {   
     relatedPosts: ["2020-05-23-java","2020-06-13"],
   },
   {
-    title: "RestTemplate和Ribbon原理及使用;",
+    title: "RestTemplate and Ribbon: Principles and Usage",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog3.jpg',
     url: '/blog/2020-07-26-resttemplateribbon',
@@ -1138,7 +1138,7 @@ public class LoggingClientHttpRequestInterceptor implements ClientHttpRequestInt
     relatedPosts: ["2020-05-23-java","2020-06-13"],
   },
   {
-    title: "Zuul网关原理及使用",
+    title: "Zuul Gateway: Principles and Usage",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog4.jpg',
     url: '/blog/2020-07-28-zuul',
@@ -1197,7 +1197,7 @@ pre来源uri：/api-driver/test/tokenpre拦截pre 业务逻辑 token:msb coolie
     relatedPosts: ["2020-06-23-spring-cloud-eurekaactuator","2020-07-02"],
   },
   {
-    title: "Sleuth链路追踪;",
+    title: "Spring Cloud Sleuth: Distributed Tracing",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog5.jpg',
     url: '/blog/2020-07-29-sleuth',
@@ -1242,7 +1242,7 @@ http://localhost:6010/root/root
     relatedPosts: ["2020-06-23-spring-cloud-eurekaactuator","2020-07-02"],
   },
   {
-    title: "Hystrix原理及使用",
+    title: "Hystrix: Circuit Breaker Patterns",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog6.jpg',
     url: '/blog/2020-08-03-hystrix',
@@ -1275,7 +1275,7 @@ http://localhost:6010/root/root
     relatedPosts: ["2020-06-23-spring-cloud-eurekaactuator","2020-07-02"],
   },
   {
-    title: "MySQL主从复制原理及配置",
+    title: "MySQL Master-Slave Replication Setup",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog1.jpg',
     url: '/blog/2020-08-03-mysql',
@@ -1312,7 +1312,7 @@ http://localhost:6010/root/root
     relatedPosts: ["2020-05-03-mysql","2020-06-13-mysql"],
   },
   {
-    title: "MySQL的MVCC原理及使用",
+    title: "MySQL MVCC: Multi-Version Concurrency Control",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog2.jpg',
     url: '/blog/2020-08-03-mysqlmvcc',
@@ -1341,7 +1341,7 @@ DEFAULT CHARSET=utf8;
     relatedPosts: ["2020-05-03-mysql","2020-06-13-mysql"],
   },
   {
-    title: "MySQL的锁机制",
+    title: "MySQL Locking Mechanisms",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog3.jpg',
     url: '/blog/2020-08-03-mysql',
@@ -1390,7 +1390,7 @@ mysql> show status like 'table%';+-----------------------+-------+| Variable_nam
     relatedPosts: ["2020-05-03-mysql","2020-06-13-mysql"],
   },
   {
-    title: "MySQL练习题",
+    title: "MySQL Practice Exercises",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog4.jpg',
     url: '/blog/2020-08-03-mysql',
@@ -1409,7 +1409,7 @@ mysql> show status like 'table%';+-----------------------+-------+| Variable_nam
     relatedPosts: ["2020-05-03-mysql","2020-06-13-mysql"],
   },
   {
-    title: "MySQL读写分离",
+    title: "MySQL Read-Write Splitting",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog5.jpg',
     url: '/blog/2020-08-03-mysql',
@@ -1429,7 +1429,7 @@ master 192.168.85.11slave  192.168.85.12proxy  192-168.85.14
     relatedPosts: ["2020-05-03-mysql","2020-06-13-mysql"],
   },
   {
-    title: "异常及常用类知识点",
+    title: "Java Exceptions and Common Classes",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog6.jpg',
     url: '/blog/2020-08-03',
@@ -1449,7 +1449,7 @@ master 192.168.85.11slave  192.168.85.12proxy  192-168.85.14
     relatedPosts: ["2020-05-23-java","2020-06-13"],
   },
   {
-    title: "集合框架知识点整理",
+    title: "Java Collections Framework Guide",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog1.jpg',
     url: '/blog/2020-08-03',
@@ -1475,7 +1475,7 @@ master 192.168.85.11slave  192.168.85.12proxy  192-168.85.14
     relatedPosts: ["2020-05-23-java","2020-06-13"],
   },
   {
-    title: "Spring AOP应用之——声明式事务",
+    title: "Spring AOP: Declarative Transactions",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog2.jpg',
     url: '/blog/2020-08-04-spring-aop',
@@ -1504,7 +1504,7 @@ import com.oi.bean.Emp;import org.springframework.context.ApplicationContext;imp
     relatedPosts: ["2020-04-03-spring-ioc","2020-05-22-ioc"],
   },
   {
-    title: "Spring MVC的介绍及使用",
+    title: "Spring MVC Introduction and Usage",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog3.jpg',
     url: '/blog/2020-08-04-spring-mvc',
@@ -1561,7 +1561,7 @@ package com.oi.bean;public class Address {    private String province;    privat
     relatedPosts: ["2020-04-03-spring-ioc","2020-05-22-ioc"],
   },
   {
-    title: "两种动态代理实现——JDK与CGLib",
+    title: "Dynamic Proxy: JDK vs CGLIB Implementation",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog5.jpg',
     url: '/blog/2020-08-04-jdkcglib',
@@ -1586,7 +1586,7 @@ private static Class getProxyClass0(ClassLoader loader,                         
     relatedPosts: ["2020-05-23-java","2020-06-13"],
   },
   {
-    title: "Eureka注册中心详解",
+    title: "Eureka Service Registry Deep Dive",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog6.jpg',
     url: '/blog/2020-08-13-eureka',
@@ -1634,7 +1634,7 @@ eureka:   client:    #设置服务注册中心的URL    service-url:            
     relatedPosts: ["2020-06-23-spring-cloud-eurekaactuator","2020-07-02"],
   },
   {
-    title: "MySQL执行计划详解",
+    title: "MySQL Execution Plan Analysis",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog1.jpg',
     url: '/blog/2020-08-13-mysql',
@@ -1658,7 +1658,7 @@ explain select * from emp e join dept d on e.deptno = d.deptno join salgrade sg 
     relatedPosts: ["2020-05-03-mysql","2020-06-13-mysql"],
   },
   {
-    title: "Spring原理讲解",
+    title: "Spring Framework Internals",
     excerpt: "In-depth technical analysis with code examples and enterprise best practices.",
     image: '/img/blog2.jpg',
     url: '/blog/2020-08-24-spring',
