@@ -41,7 +41,7 @@ export const blogItems: BlogItemType[] = [
     title: "RAG in Production: From Prototype to High-Trust AI",
     excerpt: "A practical, engineering-first guide to Retrieval-Augmented Generation covering architecture, chunking, hybrid retrieval, prompt grounding, and evaluation loops.",
     image: '/img/rag-cover.svg',
-    url: '/blog/2026-02-17-rag-practical-guide',
+    url: '/rag-production-guide',
     date: 'February 17, 2026',
     category: 'AI',
     tags: ["RAG", "LLM", "Vector Search", "AI Engineering"],

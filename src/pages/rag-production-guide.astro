@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BlogHeader from '../components/BlogHeader.astro';
+import AuthorCard from '../components/ui/AuthorCard.astro';
+import RelatedPost from '../components/ui/RelatedPost.astro';
+import { blogItems } from '../data/blogItems';
+
+const post = blogItems.find((item) => item.slug === '2026-02-17-rag-practical-guide');
+
+if (!post) {
+  throw new Error('RAG post not found: 2026-02-17-rag-practical-guide');
+}
+
+const title = post.title;
+const relatedPosts = blogItems.filter((p) => post.relatedPosts.includes(p.slug));
+---
+
+<Layout title={title}>
+  <section class="py-12 max-w-6xl mx-auto px-6 lg:px-12 relative z-10">
+    <BlogHeader
+      title={post.title}
+      date={post.date}
+      readTime={post.readTime}
+    />
+    <div class="py-8 px-6 bg-gray-950 rounded-lg border border-gray-800 mb-8">
+      <div class="relative mb-8">
+        <img
+          src={post.image}
+          alt={post.title}
+          class="w-full object-cover rounded-lg border border-gray-800"
+        />
+      </div>
+      <div class="post-content text-gray-300 space-y-8" set:html={post.content} />
+    </div>
+    <AuthorCard
+      name={post.author.name}
+      bio={post.author.bio}
+      image={post.author.image}
+      social={post.author.social}
+    />
+    {relatedPosts.length > 0 && (
+      <div class="relative">
+        <h3 class="text-xl font-bold font-code text-white mb-6 flex items-center gap-2">
+          <i class="fas fa-book text-green-400 led-glow"></i> Related Articles
+        </h3>
+        <div class="grid grid-cols-1 gap-6">
+          {relatedPosts.map((related) => (
+            <RelatedPost
+              title={related.title}
+              excerpt={related.excerpt}
+              image={related.image}
+              url={related.url}
+              date={related.date}
+            />
+          ))}
+        </div>
+      </div>
+    )}
+  </section>
+</Layout>
