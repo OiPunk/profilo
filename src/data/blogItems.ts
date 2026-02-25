@@ -28,7 +28,7 @@ export interface BlogItemType {
 const defaultAuthor: Author = {
   "name": "Weiguang Li",
   "bio": "Java Backend Engineer specializing in Spring Boot, distributed systems, and microservices. Passionate about clean code and continuous learning.",
-  "image": "/img/male2.jpg",
+  "image": "/img/profile-avatar.png",
   "social": {
     "github": "https://github.com/OiPunk",
     "linkedin": "https://linkedin.com/in/",
