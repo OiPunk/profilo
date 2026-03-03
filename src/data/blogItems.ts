@@ -38,6 +38,125 @@ const defaultAuthor: Author = {
 
 export const blogItems: BlogItemType[] = [
   {
+    title: "Fixing a Silent Notion Sync Failure in Dify",
+    excerpt: "How a one-line serialization regression broke Notion sync for all Dify v1.13.0 self-hosted users, and how I traced it through a masking test fixture to deliver a clean fix with regression coverage.",
+    image: '/img/blog5.jpg',
+    url: '/blog/2026-03-01-dify-notion-sync-serialization-fix',
+    date: 'March 1, 2026',
+    category: 'Open Source',
+    tags: ["Dify", "Python", "PostgreSQL", "psycopg2", "Notion", "Open Source"],
+    slug: '2026-03-01-dify-notion-sync-serialization-fix',
+    content: `
+<h1>Fixing a Silent Notion Sync Failure in Dify</h1>
+<p>This post covers my merged contribution to <a href="https://github.com/langgenius/dify" target="_blank" rel="noopener noreferrer">Dify</a>, a popular open-source LLM application platform. The fix addressed a critical regression that silently broke Notion knowledge-base synchronization for all self-hosted v1.13.0 users.</p>
+
+<h2>Primary References</h2>
+<ul>
+  <li><strong>Issue:</strong> <a href="https://github.com/langgenius/dify/issues/32705" target="_blank" rel="noopener noreferrer">langgenius/dify#32705</a></li>
+  <li><strong>Pull Request:</strong> <a href="https://github.com/langgenius/dify/pull/32747" target="_blank" rel="noopener noreferrer">langgenius/dify#32747</a></li>
+  <li><strong>Regression source:</strong> <a href="https://github.com/langgenius/dify/pull/32129" target="_blank" rel="noopener noreferrer">langgenius/dify#32129</a> (DB session refactor)</li>
+  <li><strong>Main source file:</strong> <a href="https://github.com/langgenius/dify/blob/main/api/tasks/document_indexing_sync_task.py" target="_blank" rel="noopener noreferrer">document_indexing_sync_task.py</a></li>
+</ul>
+
+<h2>Background</h2>
+<p>Dify allows users to connect external knowledge sources — including Notion — as retrieval-augmented context for LLM applications. When a Notion page is modified, users click "Sync" in the Dify dashboard to pull the latest content into their knowledge base.</p>
+<p>After upgrading to v1.13.0, self-hosted users reported that the sync button appeared to finish instantly, but the content was never updated. No user-facing error was shown — the failure was completely silent.</p>
+
+<h2>The Symptom</h2>
+<p>In the Docker worker logs, the real error was buried:</p>
+<pre><code class="language-text">sqlalchemy.exc.ProgrammingError: (psycopg2.ProgrammingError) can't adapt type 'dict'</code></pre>
+<p>This told me that somewhere in the sync task, a Python <code>dict</code> was being written directly to a PostgreSQL text column — and psycopg2 does not know how to serialize a dict to a text field.</p>
+
+<h2>Root Cause Analysis</h2>
+<p>The bug was a classic serialization regression. In the <code>document_indexing_sync_task</code>, after detecting that a Notion page had changed, the task reads metadata, updates a timestamp, and writes it back:</p>
+
+<pre><code class="language-python"># The broken code path
+data_source_info = document.data_source_info_dict   # returns a Python dict
+data_source_info["last_edited_time"] = last_edited_time
+document.data_source_info = data_source_info         # ← raw dict to LongText column</code></pre>
+
+<p>The <code>data_source_info</code> column is a <code>LongText</code> field in the database. It stores JSON as a plain string, not as a native JSON type. Assigning a Python <code>dict</code> directly to this column causes psycopg2 to reject it at commit time.</p>
+
+<p>This regression was introduced in <a href="https://github.com/langgenius/dify/pull/32129" target="_blank" rel="noopener noreferrer">PR #32129</a>, which refactored the sync task to use split database sessions. During the refactor, the original <code>json.dumps()</code> call was accidentally dropped.</p>
+
+<h2>The Masking Test Fixture</h2>
+<p>What made this bug especially interesting was that the existing integration tests did not catch it. Why?</p>
+<p>The test suite included an <code>autouse</code> fixture that globally registered a psycopg2 adapter to convert <code>dict</code> objects to JSON:</p>
+
+<pre><code class="language-python"># This fixture was HIDING the bug
+@pytest.fixture(autouse=True)
+def _register_dict_adapter_for_psycopg2():
+    """Align test DB adapter behavior with dict payloads used in task update flow."""
+    register_adapter(dict, Json)</code></pre>
+
+<p>With this fixture active, psycopg2 could silently accept a raw dict — so the tests passed even though the production code path would fail. The fixture was essentially a workaround that masked the real serialization contract violation.</p>
+
+<h2>The Fix</h2>
+<p>The code fix itself was a single line:</p>
+
+<pre><code class="language-python"># Before
+document.data_source_info = data_source_info
+
+# After
+document.data_source_info = json.dumps(data_source_info)</code></pre>
+
+<p>This is consistent with every other <code>data_source_info</code> write in the entire Dify codebase. The regression was simply a missed serialization call during refactoring.</p>
+
+<h2>Test Changes</h2>
+<p>Beyond the one-line fix, I made two important test changes:</p>
+
+<h3>1. Removed the masking fixture</h3>
+<p>I deleted the <code>_register_dict_adapter_for_psycopg2</code> autouse fixture from the integration tests. This ensures that if a similar regression is introduced in the future, the tests will catch it immediately rather than silently adapting around it.</p>
+
+<h3>2. Added a regression unit test</h3>
+<p>I added <code>TestDataSourceInfoSerialization</code> with a test that exercises the full sync flow and explicitly asserts that <code>data_source_info</code> is a JSON string, not a dict:</p>
+
+<pre><code class="language-python">def test_data_source_info_serialized_as_json_string(self, ...):
+    """data_source_info must be serialized with json.dumps before DB write."""
+    # ... setup mocks for the full sync flow ...
+
+    document_indexing_sync_task(dataset_id, document_id)
+
+    # Assert: must be a JSON string, not a dict
+    assert isinstance(mock_document.data_source_info, str)
+    parsed = json.loads(mock_document.data_source_info)
+    assert parsed["last_edited_time"] == "2024-02-01T00:00:00Z"</code></pre>
+
+<h2>Validation</h2>
+<pre><code class="language-bash"># Lint and format checks
+ruff check
+ruff format --check
+
+# Unit tests (4/4 passed)
+pytest api/tests/unit_tests/tasks/test_document_indexing_sync_task.py -v</code></pre>
+
+<h2>Review and Merge</h2>
+<p>The PR was reviewed and approved by <a href="https://github.com/crazywoola" target="_blank" rel="noopener noreferrer">@crazywoola</a>, a Dify core maintainer, and merged on March 1, 2026. The patch scope was intentionally small — one functional line, one removed fixture, one added test — to minimize review burden and merge risk.</p>
+
+<h2>Lessons Learned</h2>
+<ul>
+  <li><strong>Test fixtures can hide bugs.</strong> An <code>autouse</code> fixture that globally adapts types may keep tests green while production code is broken. Be suspicious of any fixture that modifies runtime adapter behavior.</li>
+  <li><strong>Serialization boundaries deserve explicit tests.</strong> When data crosses from Python objects to database columns, the serialization format should be asserted directly, not just the data content.</li>
+  <li><strong>Refactoring regressions are predictable.</strong> When code is restructured (like splitting DB sessions), serialization and type-conversion calls at data boundaries are the most likely casualties. These deserve targeted review attention during refactors.</li>
+  <li><strong>Silent failures are expensive.</strong> This bug produced no user-facing error — the sync just silently did nothing. Adding observability (logging, metrics) around task completion would help surface these failures faster.</li>
+</ul>
+
+<h2>Impact</h2>
+<ul>
+  <li><strong>Users affected:</strong> all self-hosted Dify v1.13.0 users with Notion knowledge bases.</li>
+  <li><strong>Severity:</strong> data sync was completely broken, not degraded.</li>
+  <li><strong>Fix scope:</strong> minimal and surgical — one line of code, zero risk of side effects.</li>
+  <li><strong>Testing improvement:</strong> removed a masking fixture and added a direct regression test, making the codebase more honest.</li>
+</ul>
+
+<h2>Takeaway</h2>
+<p>The best open-source contributions often come from following a production error to its root cause, then fixing not just the code but also the testing gap that allowed it to ship. This PR is a good example: a one-line fix paired with a testing cleanup that makes the project more robust going forward.</p>
+`,
+    author: defaultAuthor,
+    readTime: '10 min read',
+    relatedPosts: ['2026-02-26-langchain4j-vertexai-schema-interop', '2026-02-25-langchain4j-mcp-transport-compatibility'],
+  },
+  {
     title: "Fixing Vertex AI Gemini Tool-Schema Interop in LangChain4j",
     excerpt: "A practical deep dive into merged PR #4625: how a JSON schema compatibility gap broke tool calling for Vertex AI Gemini, and how I fixed it with focused regression coverage.",
     image: '/img/blog5.jpg',
