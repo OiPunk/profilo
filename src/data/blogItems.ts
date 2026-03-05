@@ -38,81 +38,123 @@ const defaultAuthor: Author = {
 
 export const blogItems: BlogItemType[] = [
   {
-    title: "AI Agent 技术栈全景：从核心架构到必备框架",
-    excerpt: "深入浅出解析 AI Agent 的核心架构、设计模式、主流框架对比，以及 MCP/A2A/AG-UI 等协议层演进。附完整技术选型指南和实战建议。",
+    title: "AI Agent Core Architecture: LLM + Memory + Tools + Planning",
+    excerpt: "A first-principles breakdown of AI Agent architecture: how the LLM brain, memory systems, tool interfaces, and planning modules form an autonomous reasoning loop.",
     image: '/img/agent-architecture.svg',
-    url: '/blog/ai-agent-tech-stack-guide',
+    url: '/blog/ai-agent-core-architecture',
     date: 'March 5, 2026',
     category: 'AI',
-    tags: ["AI Agent", "LangGraph", "OpenAI", "PydanticAI", "MCP", "CrewAI", "Architecture"],
-    slug: 'ai-agent-tech-stack-guide',
+    tags: ["AI Agent", "Architecture", "LLM", "RAG", "Memory"],
+    slug: 'ai-agent-core-architecture',
     content: `
-<h1>AI Agent 技术栈全景：从核心架构到必备框架</h1>
-<p>2025-2026 年是 AI Agent 从概念走向工程落地的关键时期。本文将从<strong>核心架构</strong>、<strong>设计模式</strong>、<strong>主流框架</strong>、<strong>协议层</strong>和<strong>生产实践</strong>五个维度，系统梳理构建 AI Agent 所需的完整技术栈。</p>
+<h1>AI Agent Core Architecture: LLM + Memory + Tools + Planning</h1>
+<p>This is <strong>Part 1</strong> of the <em>AI Agent Tech Stack</em> series. This article breaks down the core architecture from first principles. The rest of the series: <a href="/blog/ai-agent-design-patterns">Design Patterns</a> · <a href="/blog/ai-agent-frameworks">Framework Comparison</a> · <a href="/blog/ai-agent-protocols">Protocol Layer</a> · <a href="/blog/ai-agent-production">Production Practices</a>.</p>
 
-<h2>一、什么是 AI Agent</h2>
-<p>AI Agent 不是简单的 "LLM + Prompt"。它是一个能够<strong>感知环境、自主规划、使用工具、迭代执行</strong>的智能系统。与传统的单轮问答不同，Agent 具备：</p>
+<h2>What Is an AI Agent?</h2>
+<p>An AI Agent is far more than "LLM + Prompt." It is an autonomous system that can <strong>perceive its environment, plan actions, use tools, and execute iteratively</strong>. Unlike traditional single-turn Q&A, an agent has:</p>
 <ul>
-  <li><strong>自主性</strong> — 能自行决定下一步动作，而不是等待用户指令</li>
-  <li><strong>工具使用</strong> — 能调用外部 API、执行代码、操作数据库</li>
-  <li><strong>记忆</strong> — 能记住上下文、历史交互和学到的知识</li>
-  <li><strong>规划</strong> — 能将复杂任务分解为子步骤并逐步执行</li>
-  <li><strong>反思</strong> — 能评估自身输出质量并自我纠正</li>
+  <li><strong>Autonomy</strong> — decides the next action on its own, without waiting for explicit user commands</li>
+  <li><strong>Tool Use</strong> — invokes external APIs, executes code, queries databases</li>
+  <li><strong>Memory</strong> — retains conversation context, interaction history, and learned knowledge</li>
+  <li><strong>Planning</strong> — decomposes complex tasks into executable sub-steps</li>
+  <li><strong>Reflection</strong> — evaluates its own output quality and self-corrects</li>
 </ul>
 
-<h2>二、核心架构</h2>
+<h2>Core Architecture</h2>
 <figure>
   <img src="/img/agent-architecture.svg" alt="AI Agent core architecture — LLM brain with Memory, Tools, Planning, and Observation modules" class="my-4" />
-  <figcaption>AI Agent 核心架构：LLM 作为大脑，连接 Memory、Tools、Planning、Observation 四大模块，形成迭代闭环。</figcaption>
+  <figcaption>AI Agent core architecture: the LLM serves as the brain, connecting Memory, Tools, Planning, and Observation modules in an iterative loop.</figcaption>
 </figure>
 
-<h3>2.1 LLM（大脑）</h3>
-<p>LLM 是 Agent 的推理引擎，负责理解用户意图、制定计划、选择工具、生成回复。主流选择：</p>
+<h3>1. LLM (Brain)</h3>
+<p>The LLM is the agent's reasoning engine — it understands user intent, formulates plans, selects tools, and generates responses. Leading choices:</p>
 <table>
-  <thead><tr><th>模型</th><th>厂商</th><th>特点</th><th>适用场景</th></tr></thead>
+  <thead><tr><th>Model</th><th>Provider</th><th>Strengths</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td>GPT-4o / o3</td><td>OpenAI</td><td>综合最强，工具调用稳定</td><td>通用 Agent、复杂推理</td></tr>
-    <tr><td>Claude 4 Opus/Sonnet</td><td>Anthropic</td><td>长上下文、代码能力强</td><td>代码 Agent、文档分析</td></tr>
-    <tr><td>Gemini 2.5 Pro</td><td>Google</td><td>多模态、长上下文</td><td>多模态 Agent</td></tr>
-    <tr><td>DeepSeek-V3</td><td>DeepSeek</td><td>性价比极高</td><td>成本敏感场景</td></tr>
-    <tr><td>Llama 3.3 / 4</td><td>Meta</td><td>开源可私有化部署</td><td>数据隐私要求高</td></tr>
-    <tr><td>Qwen 3</td><td>阿里</td><td>中文能力强</td><td>中文场景</td></tr>
+    <tr><td>GPT-4o / o3</td><td>OpenAI</td><td>Strongest all-round, stable tool calling</td><td>General agents, complex reasoning</td></tr>
+    <tr><td>Claude 4 Opus/Sonnet</td><td>Anthropic</td><td>Long context, strong coding</td><td>Code agents, document analysis</td></tr>
+    <tr><td>Gemini 2.5 Pro</td><td>Google</td><td>Multimodal, long context</td><td>Multimodal agents</td></tr>
+    <tr><td>DeepSeek-V3</td><td>DeepSeek</td><td>Excellent cost-performance ratio</td><td>Cost-sensitive workloads</td></tr>
+    <tr><td>Llama 3.3 / 4</td><td>Meta</td><td>Open-source, self-hostable</td><td>Data-privacy-critical scenarios</td></tr>
+    <tr><td>Qwen 3</td><td>Alibaba</td><td>Strong multilingual support</td><td>Multilingual agents</td></tr>
   </tbody>
 </table>
 
-<h3>2.2 Memory（记忆）</h3>
-<p>Agent 的记忆分为三层：</p>
+<h3>2. Memory</h3>
+<p>Agent memory operates at three levels:</p>
 <ul>
-  <li><strong>短期记忆 (Short-term)</strong> — 当前对话上下文，受 context window 限制。实现方式：消息列表 + 摘要压缩。</li>
-  <li><strong>长期记忆 (Long-term)</strong> — 持久化的知识库，通常通过 RAG（检索增强生成）实现。向量数据库选型：<a href="https://www.pinecone.io/" target="_blank" rel="noopener noreferrer">Pinecone</a>、<a href="https://www.trychroma.com/" target="_blank" rel="noopener noreferrer">ChromaDB</a>、<a href="https://github.com/pgvector/pgvector" target="_blank" rel="noopener noreferrer">pgvector</a>、<a href="https://milvus.io/" target="_blank" rel="noopener noreferrer">Milvus</a>。</li>
-  <li><strong>情景记忆 (Episodic)</strong> — 过去任务的执行经验和反馈。代表项目：<a href="https://github.com/mem0ai/mem0" target="_blank" rel="noopener noreferrer">Mem0</a>。</li>
+  <li><strong>Short-term</strong> — current conversation context, limited by the context window. Implementation: message list + summary compression.</li>
+  <li><strong>Long-term</strong> — persistent knowledge store, typically via RAG (Retrieval-Augmented Generation). Vector DB options: <a href="https://www.pinecone.io/" target="_blank" rel="noopener noreferrer">Pinecone</a>, <a href="https://www.trychroma.com/" target="_blank" rel="noopener noreferrer">ChromaDB</a>, <a href="https://github.com/pgvector/pgvector" target="_blank" rel="noopener noreferrer">pgvector</a>, <a href="https://milvus.io/" target="_blank" rel="noopener noreferrer">Milvus</a>.</li>
+  <li><strong>Episodic</strong> — past task execution experiences and feedback. Notable project: <a href="https://github.com/mem0ai/mem0" target="_blank" rel="noopener noreferrer">Mem0</a>.</li>
 </ul>
 
-<h3>2.3 Tools（工具）</h3>
-<p>工具是 Agent 与外部世界交互的接口。主要通过两种机制实现：</p>
+<h3>3. Tools</h3>
+<p>Tools are the agent's interface to the outside world, implemented via two primary mechanisms:</p>
 <ul>
-  <li><strong>Function Calling</strong> — OpenAI/Claude 原生支持，LLM 输出结构化的工具调用请求</li>
-  <li><strong>MCP (Model Context Protocol)</strong> — Anthropic 提出的开放协议，将工具抽象为独立服务。详见下文 <a href="#mcp-protocol">MCP 章节</a>。</li>
+  <li><strong>Function Calling</strong> — natively supported by OpenAI/Claude; the LLM outputs structured tool-call requests</li>
+  <li><strong>MCP (Model Context Protocol)</strong> — an open protocol by Anthropic that abstracts tools as independent services. See <a href="/blog/ai-agent-protocols">Protocol Layer</a> for details.</li>
 </ul>
-<p>常见工具类型：代码执行、Web 搜索、数据库查询、API 调用、文件读写、浏览器操作。</p>
+<p>Common tool types: code execution, web search, database queries, API calls, file I/O, browser automation.</p>
 
-<h3>2.4 Planning（规划）</h3>
-<p>Agent 的规划能力决定了它处理复杂任务的上限。核心方法：</p>
+<h3>4. Planning</h3>
+<p>An agent's planning capability determines its ceiling for handling complex tasks. Core approaches:</p>
 <ul>
-  <li><strong>ReAct</strong> — Reasoning + Acting 交替执行，每步先思考再行动</li>
-  <li><strong>Chain-of-Thought (CoT)</strong> — 逐步推理，提高准确性</li>
-  <li><strong>Task Decomposition</strong> — 将大任务拆分为可执行的子任务</li>
-  <li><strong>Plan-and-Execute</strong> — 先制定完整计划，再逐步执行</li>
+  <li><strong>ReAct</strong> — alternates between Reasoning and Acting; think first, then act at each step</li>
+  <li><strong>Chain-of-Thought (CoT)</strong> — step-by-step reasoning to improve accuracy</li>
+  <li><strong>Task Decomposition</strong> — break large tasks into executable sub-tasks</li>
+  <li><strong>Plan-and-Execute</strong> — formulate a complete plan first, then execute step by step</li>
 </ul>
 
-<h2>三、Agent 设计模式</h2>
+<h2>The Agent Loop</h2>
+<p>All these components come together in the <strong>Perception → Reasoning → Action → Observation</strong> loop:</p>
+<ol>
+  <li>The agent <strong>perceives</strong> the user's request and any environmental context</li>
+  <li>The LLM <strong>reasons</strong> about what to do next (planning + chain-of-thought)</li>
+  <li>It <strong>acts</strong> by calling a tool or generating a response</li>
+  <li>It <strong>observes</strong> the result, reflects, and decides whether to continue or finish</li>
+</ol>
+<p>This loop repeats until the task is complete or a maximum iteration limit is reached.</p>
+
+<h2>What's Next</h2>
+<p>This article covered the foundational architecture. The rest of the series dives deeper:</p>
+<ul>
+  <li><a href="/blog/ai-agent-design-patterns">Part 2: Design Patterns</a> — ReAct, Multi-Agent, Graph Workflows, Handoffs</li>
+  <li><a href="/blog/ai-agent-frameworks">Part 3: Framework Comparison</a> — LangGraph vs OpenAI Agents vs PydanticAI vs CrewAI</li>
+  <li><a href="/blog/ai-agent-protocols">Part 4: Protocol Layer</a> — MCP, A2A, AG-UI, Function Calling</li>
+  <li><a href="/blog/ai-agent-production">Part 5: Production Practices</a> — Observability, Evaluation, Guardrails, Deployment</li>
+</ul>
+
+<h2>References</h2>
+<ul>
+  <li><a href="https://lilianweng.github.io/posts/2023-06-23-agent/" target="_blank" rel="noopener noreferrer">Lilian Weng: LLM Powered Autonomous Agents</a></li>
+  <li><a href="https://arxiv.org/abs/2210.03629" target="_blank" rel="noopener noreferrer">ReAct Paper: Synergizing Reasoning and Acting in Language Models</a></li>
+  <li><a href="https://www.deeplearning.ai/short-courses/" target="_blank" rel="noopener noreferrer">DeepLearning.AI: AI Agents Courses</a></li>
+</ul>
+`,
+    author: defaultAuthor,
+    readTime: '8 min read',
+    relatedPosts: ['ai-agent-design-patterns', 'ai-agent-frameworks'],
+  },
+  {
+    title: "AI Agent Design Patterns: ReAct, Multi-Agent, Graph Workflows, and Handoffs",
+    excerpt: "Five essential design patterns for building AI agents — from simple ReAct loops to multi-agent collaboration, graph-based workflows, and agent handoffs. With code examples and framework recommendations.",
+    image: '/img/agent-patterns.svg',
+    url: '/blog/ai-agent-design-patterns',
+    date: 'March 5, 2026',
+    category: 'AI',
+    tags: ["AI Agent", "Design Patterns", "ReAct", "Multi-Agent", "LangGraph"],
+    slug: 'ai-agent-design-patterns',
+    content: `
+<h1>AI Agent Design Patterns: ReAct, Multi-Agent, Graph Workflows, and Handoffs</h1>
+<p><strong>Part 2</strong> of the <em>AI Agent Tech Stack</em> series. See also: <a href="/blog/ai-agent-core-architecture">Core Architecture</a> · <a href="/blog/ai-agent-frameworks">Framework Comparison</a> · <a href="/blog/ai-agent-protocols">Protocol Layer</a> · <a href="/blog/ai-agent-production">Production Practices</a>.</p>
+
 <figure>
-  <img src="/img/agent-patterns.svg" alt="Five common agent design patterns — ReAct, Multi-Agent, Tool-Use, Graph Workflow, Handoff" class="my-4" />
-  <figcaption>五种主流 Agent 设计模式：ReAct 循环、多 Agent 协作、工具增强、图工作流、Agent 委派。</figcaption>
+  <img src="/img/agent-patterns.svg" alt="Five common agent design patterns" class="my-4" />
+  <figcaption>Five mainstream agent design patterns: ReAct loop, multi-agent collaboration, tool-augmented, graph workflow, and agent handoff.</figcaption>
 </figure>
 
-<h3>3.1 ReAct Loop</h3>
-<p>最基础也最常用的模式。Agent 在 Think → Act → Observe 之间循环，直到任务完成。</p>
+<h2>1. ReAct Loop</h2>
+<p>The most fundamental pattern. The agent cycles through Think → Act → Observe until the task is complete.</p>
 <pre><code class="language-text">Thought: I need to find the current stock price of AAPL.
 Action: search("AAPL stock price today")
 Observation: AAPL is trading at $198.50.
@@ -120,38 +162,19 @@ Thought: Now I have the price. Let me calculate the portfolio value.
 Action: calculate(shares=100, price=198.50)
 Observation: Portfolio value = $19,850.00
 Thought: I have all the information. Let me respond.</code></pre>
+<p><strong>Best for:</strong> Single-agent tasks with tool use. <strong>Frameworks:</strong> LangChain, OpenAI Agents SDK.</p>
+<p><strong>Reference:</strong> <a href="https://arxiv.org/abs/2210.03629" target="_blank" rel="noopener noreferrer">ReAct Paper: Synergizing Reasoning and Acting in LLMs</a></p>
 
-<h3>3.2 Multi-Agent Collaboration</h3>
-<p>将复杂任务分配给多个专门化的 Agent：Planner 负责拆解、Coder 负责编码、Reviewer 负责审查、Executor 负责执行。</p>
-<p>代表框架：<a href="https://github.com/crewAIInc/crewAI" target="_blank" rel="noopener noreferrer">CrewAI</a>、<a href="https://github.com/microsoft/autogen" target="_blank" rel="noopener noreferrer">AutoGen</a>。</p>
+<h2>2. Multi-Agent Collaboration</h2>
+<p>Distribute complex tasks across specialized agents: Planner decomposes, Coder implements, Reviewer checks quality, Executor runs and tests.</p>
+<p><strong>Best for:</strong> Complex workflows requiring different expertise. <strong>Frameworks:</strong> <a href="https://github.com/crewAIInc/crewAI" target="_blank" rel="noopener noreferrer">CrewAI</a>, <a href="https://github.com/microsoft/autogen" target="_blank" rel="noopener noreferrer">AutoGen</a>.</p>
 
-<h3>3.3 Tool-Augmented Agent</h3>
-<p>LLM 根据当前状态选择最合适的工具调用。通过 Function Calling 或 MCP 实现工具发现和调用。</p>
-<p>代表框架：<a href="https://github.com/pydantic/pydantic-ai" target="_blank" rel="noopener noreferrer">PydanticAI</a>、<a href="https://github.com/openai/openai-agents-python" target="_blank" rel="noopener noreferrer">OpenAI Agents SDK</a>。</p>
+<h2>3. Tool-Augmented Agent</h2>
+<p>The LLM selects and invokes the right tool based on current state. Implemented via Function Calling or MCP.</p>
+<p><strong>Best for:</strong> Agents needing to interact with external systems. <strong>Frameworks:</strong> <a href="https://github.com/pydantic/pydantic-ai" target="_blank" rel="noopener noreferrer">PydanticAI</a>, <a href="https://github.com/openai/openai-agents-python" target="_blank" rel="noopener noreferrer">OpenAI Agents SDK</a>.</p>
 
-<h3>3.4 Graph-Based Workflow</h3>
-<p>将 Agent 逻辑建模为有向图，每个节点是一个处理步骤，边可以是条件分支。支持循环、状态持久化、Human-in-the-loop。</p>
-<p>代表框架：<a href="https://github.com/langchain-ai/langgraph" target="_blank" rel="noopener noreferrer">LangGraph</a>。</p>
-
-<h3>3.5 Agent Handoff</h3>
-<p>Triage Agent 负责识别用户意图，然后无缝将对话委派给专门的 Agent（Sales/Support/Tech），同时保持上下文完整传递。</p>
-<p>代表框架：<a href="https://github.com/openai/openai-agents-python" target="_blank" rel="noopener noreferrer">OpenAI Agents SDK</a> (Handoff 机制)。</p>
-
-<h2>四、主流框架全景对比</h2>
-<figure>
-  <img src="/img/agent-frameworks-landscape.svg" alt="AI Agent framework landscape 2026 — from LLM providers to high-level platforms" class="my-4" />
-  <figcaption>2026 年 AI Agent 框架全景图：从底层 LLM 到顶层低代码平台的完整技术栈分层。</figcaption>
-</figure>
-
-<h3>4.1 LangGraph — 状态图编排</h3>
-<p><a href="https://github.com/langchain-ai/langgraph" target="_blank" rel="noopener noreferrer">LangGraph</a> 是 LangChain 团队推出的 Agent 编排框架，核心理念是将 Agent 工作流建模为<strong>有状态的有向图</strong>。</p>
-<p><strong>核心特性：</strong></p>
-<ul>
-  <li><strong>Cycles &amp; Branching</strong> — 支持循环和条件分支，不局限于 DAG</li>
-  <li><strong>Persistence</strong> — 内置状态检查点，支持暂停/恢复和 time-travel 调试</li>
-  <li><strong>Human-in-the-loop</strong> — 节点间可插入人工审批步骤</li>
-  <li><strong>Streaming</strong> — 每个节点实时流式输出</li>
-</ul>
+<h2>4. Graph-Based Workflow (LangGraph)</h2>
+<p>Model agent logic as a directed graph with stateful nodes and conditional edges. Supports cycles, persistence, and human-in-the-loop.</p>
 <pre><code class="language-python">from langgraph.graph import StateGraph, START, END
 
 graph = StateGraph(AgentState)
@@ -159,24 +182,75 @@ graph.add_node("agent", call_model)
 graph.add_node("tools", call_tools)
 graph.add_edge(START, "agent")
 graph.add_conditional_edges("agent", should_continue, {
-    "continue": "tools",
-    "end": END
+    "continue": "tools", "end": END
 })
 graph.add_edge("tools", "agent")  # loop back
-
 app = graph.compile()</code></pre>
-<p><strong>适用场景：</strong>需要复杂控制流、状态管理、Human-in-the-loop 的生产级 Agent。</p>
-<p><strong>参考链接：</strong> <a href="https://langchain-ai.github.io/langgraph/" target="_blank" rel="noopener noreferrer">LangGraph 文档</a> · <a href="https://github.com/langchain-ai/langgraph" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+<p><strong>Best for:</strong> Complex control flows with state management. <strong>Framework:</strong> <a href="https://github.com/langchain-ai/langgraph" target="_blank" rel="noopener noreferrer">LangGraph</a>.</p>
 
-<h3>4.2 OpenAI Agents SDK — 官方 Agent 框架</h3>
-<p><a href="https://github.com/openai/openai-agents-python" target="_blank" rel="noopener noreferrer">OpenAI Agents SDK</a> 是 OpenAI 官方的 Python Agent 框架，设计极简但功能完整。</p>
-<p><strong>核心特性：</strong></p>
+<h2>5. Agent Handoff (OpenAI Agents SDK)</h2>
+<p>A triage agent classifies user intent and seamlessly delegates to specialized agents (Sales/Support/Tech), preserving full conversation context.</p>
+<pre><code class="language-python">from agents import Agent, Runner
+
+triage = Agent(
+    name="Triage", instructions="Route to the right specialist.",
+    handoffs=[sales_agent, support_agent, tech_agent],
+)
+result = await Runner.run(triage, user_message)</code></pre>
+<p><strong>Best for:</strong> Customer-facing multi-domain agents. <strong>Framework:</strong> <a href="https://github.com/openai/openai-agents-python" target="_blank" rel="noopener noreferrer">OpenAI Agents SDK</a>.</p>
+
+<h2>Choosing a Pattern</h2>
+<table>
+  <thead><tr><th>Pattern</th><th>Complexity</th><th>Best For</th></tr></thead>
+  <tbody>
+    <tr><td>ReAct</td><td>Low</td><td>Single-agent + tools</td></tr>
+    <tr><td>Multi-Agent</td><td>Medium</td><td>Team-based task decomposition</td></tr>
+    <tr><td>Tool-Augmented</td><td>Low</td><td>External system integration</td></tr>
+    <tr><td>Graph Workflow</td><td>High</td><td>Stateful multi-step pipelines</td></tr>
+    <tr><td>Handoff</td><td>Medium</td><td>Multi-domain routing</td></tr>
+  </tbody>
+</table>
+`,
+    author: defaultAuthor,
+    readTime: '8 min read',
+    relatedPosts: ['ai-agent-core-architecture', 'ai-agent-frameworks'],
+  },
+  {
+    title: "AI Agent Framework Comparison: LangGraph vs OpenAI Agents vs PydanticAI vs CrewAI",
+    excerpt: "A practical comparison of the six major AI agent frameworks in 2026 — with code examples, feature matrices, and selection guidance for different use cases.",
+    image: '/img/agent-frameworks-landscape.svg',
+    url: '/blog/ai-agent-frameworks',
+    date: 'March 5, 2026',
+    category: 'AI',
+    tags: ["AI Agent", "LangGraph", "OpenAI Agents", "PydanticAI", "CrewAI", "AutoGen"],
+    slug: 'ai-agent-frameworks',
+    content: `
+<h1>AI Agent Framework Comparison: LangGraph vs OpenAI Agents vs PydanticAI vs CrewAI</h1>
+<p><strong>Part 3</strong> of the <em>AI Agent Tech Stack</em> series. See also: <a href="/blog/ai-agent-core-architecture">Core Architecture</a> · <a href="/blog/ai-agent-design-patterns">Design Patterns</a> · <a href="/blog/ai-agent-protocols">Protocol Layer</a> · <a href="/blog/ai-agent-production">Production Practices</a>.</p>
+
+<figure>
+  <img src="/img/agent-frameworks-landscape.svg" alt="AI Agent framework landscape 2026" class="my-4" />
+  <figcaption>The 2026 AI Agent framework landscape: from LLM providers to high-level platforms.</figcaption>
+</figure>
+
+<h2>1. LangGraph — Stateful Graph Orchestration</h2>
+<p><a href="https://github.com/langchain-ai/langgraph" target="_blank" rel="noopener noreferrer">LangGraph</a> models agent workflows as stateful directed graphs.</p>
 <ul>
-  <li><strong>Agent Loop</strong> — 内置 ReAct 循环，自动处理 tool 调用和结果回注</li>
-  <li><strong>Handoffs</strong> — Agent 之间的无缝委派，保持上下文</li>
-  <li><strong>Guardrails</strong> — 输入/输出验证器，防止越界行为</li>
-  <li><strong>Tracing</strong> — 内置 OpenTelemetry 追踪</li>
-  <li><strong>MCP 支持</strong> — 原生集成 MCP 协议</li>
+  <li><strong>Cycles &amp; Branching</strong> — not limited to DAGs</li>
+  <li><strong>Persistence</strong> — built-in checkpointing, pause/resume, time-travel debugging</li>
+  <li><strong>Human-in-the-loop</strong> — insert approval steps between nodes</li>
+  <li><strong>Streaming</strong> — real-time output per node</li>
+</ul>
+<p><strong>Docs:</strong> <a href="https://langchain-ai.github.io/langgraph/" target="_blank" rel="noopener noreferrer">langchain-ai.github.io/langgraph</a> · <a href="https://github.com/langchain-ai/langgraph" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+
+<h2>2. OpenAI Agents SDK — Official Agent Framework</h2>
+<p><a href="https://github.com/openai/openai-agents-python" target="_blank" rel="noopener noreferrer">OpenAI Agents SDK</a> is minimalist yet complete.</p>
+<ul>
+  <li><strong>Agent Loop</strong> — built-in ReAct cycle</li>
+  <li><strong>Handoffs</strong> — seamless delegation between agents</li>
+  <li><strong>Guardrails</strong> — input/output validators</li>
+  <li><strong>Tracing</strong> — built-in OpenTelemetry</li>
+  <li><strong>MCP</strong> — native integration</li>
 </ul>
 <pre><code class="language-python">from agents import Agent, Runner
 
@@ -187,18 +261,10 @@ agent = Agent(
     handoffs=[specialist_agent],
 )
 result = await Runner.run(agent, "Analyze recent AI trends")</code></pre>
-<p><strong>适用场景：</strong>使用 OpenAI 模型构建生产级 Agent，需要 Handoff 和 Guardrails。</p>
-<p><strong>参考链接：</strong> <a href="https://openai.github.io/openai-agents-python/" target="_blank" rel="noopener noreferrer">官方文档</a> · <a href="https://github.com/openai/openai-agents-python" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+<p><strong>Docs:</strong> <a href="https://openai.github.io/openai-agents-python/" target="_blank" rel="noopener noreferrer">openai.github.io/openai-agents-python</a> · <a href="https://github.com/openai/openai-agents-python" target="_blank" rel="noopener noreferrer">GitHub</a></p>
 
-<h3>4.3 PydanticAI — 类型安全的 Agent 框架</h3>
-<p><a href="https://github.com/pydantic/pydantic-ai" target="_blank" rel="noopener noreferrer">PydanticAI</a> 是 Pydantic 团队打造的 AI Agent 框架，核心设计理念是<strong>类型安全</strong>和<strong>结构化输出</strong>。</p>
-<p><strong>核心特性：</strong></p>
-<ul>
-  <li><strong>Model-agnostic</strong> — 支持 OpenAI、Anthropic、Gemini、Ollama 等</li>
-  <li><strong>Type-safe</strong> — 用 Pydantic 模型定义 Agent 输入/输出/依赖</li>
-  <li><strong>Structured Output</strong> — 强类型的结构化返回，无需手动 JSON 解析</li>
-  <li><strong>Dependency Injection</strong> — 类似 FastAPI 的依赖注入系统</li>
-</ul>
+<h2>3. PydanticAI — Type-Safe Agents</h2>
+<p><a href="https://github.com/pydantic/pydantic-ai" target="_blank" rel="noopener noreferrer">PydanticAI</a> by the Pydantic team. Core principle: type safety + structured output.</p>
 <pre><code class="language-python">from pydantic_ai import Agent
 from pydantic import BaseModel
 
@@ -207,199 +273,206 @@ class CityInfo(BaseModel):
     country: str
     population: int
 
-agent = Agent(
-    "openai:gpt-4o",
-    output_type=CityInfo,  # 强类型输出
-    system_prompt="Extract city information."
-)
+agent = Agent("openai:gpt-4o", output_type=CityInfo)
 result = await agent.run("Tell me about Tokyo")
-print(result.output.population)  # IDE 自动补全 ✓</code></pre>
-<p><strong>适用场景：</strong>注重类型安全和结构化输出的 Python 项目。</p>
-<p><strong>参考链接：</strong> <a href="https://ai.pydantic.dev/" target="_blank" rel="noopener noreferrer">官方文档</a> · <a href="https://github.com/pydantic/pydantic-ai" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+print(result.output.population)  # IDE autocomplete works</code></pre>
+<p><strong>Docs:</strong> <a href="https://ai.pydantic.dev/" target="_blank" rel="noopener noreferrer">ai.pydantic.dev</a> · <a href="https://github.com/pydantic/pydantic-ai" target="_blank" rel="noopener noreferrer">GitHub</a></p>
 
-<h3>4.4 CrewAI — 角色协作 Agent</h3>
-<p><a href="https://github.com/crewAIInc/crewAI" target="_blank" rel="noopener noreferrer">CrewAI</a> 专注于多 Agent 角色协作，让你定义"团队"而非单个 Agent。</p>
+<h2>4. CrewAI — Role-Based Collaboration</h2>
+<p><a href="https://github.com/crewAIInc/crewAI" target="_blank" rel="noopener noreferrer">CrewAI</a> defines teams, not just agents.</p>
 <pre><code class="language-python">from crewai import Agent, Task, Crew
 
 researcher = Agent(role="Researcher", goal="Find latest AI papers", ...)
 writer = Agent(role="Writer", goal="Write blog post", ...)
-
-task1 = Task(description="Research AI agent trends", agent=researcher)
-task2 = Task(description="Write a summary article", agent=writer)
-
 crew = Crew(agents=[researcher, writer], tasks=[task1, task2])
 result = crew.kickoff()</code></pre>
-<p><strong>适用场景：</strong>需要多角色协作的业务流程自动化。</p>
-<p><strong>参考链接：</strong> <a href="https://docs.crewai.com/" target="_blank" rel="noopener noreferrer">官方文档</a> · <a href="https://github.com/crewAIInc/crewAI" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+<p><strong>Docs:</strong> <a href="https://docs.crewai.com/" target="_blank" rel="noopener noreferrer">docs.crewai.com</a> · <a href="https://github.com/crewAIInc/crewAI" target="_blank" rel="noopener noreferrer">GitHub</a></p>
 
-<h3>4.5 AutoGen — 对话式多 Agent</h3>
-<p><a href="https://github.com/microsoft/autogen" target="_blank" rel="noopener noreferrer">AutoGen</a> (Microsoft) 通过对话驱动多 Agent 协作，Agent 之间通过消息传递协调。</p>
-<p><strong>适用场景：</strong>需要 Agent 之间自主对话协商的复杂任务。</p>
-<p><strong>参考链接：</strong> <a href="https://microsoft.github.io/autogen/" target="_blank" rel="noopener noreferrer">官方文档</a> · <a href="https://github.com/microsoft/autogen" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+<h2>5. AutoGen — Conversational Multi-Agent</h2>
+<p><a href="https://github.com/microsoft/autogen" target="_blank" rel="noopener noreferrer">AutoGen</a> (Microsoft) drives multi-agent collaboration through conversation.</p>
+<p><strong>Docs:</strong> <a href="https://microsoft.github.io/autogen/" target="_blank" rel="noopener noreferrer">microsoft.github.io/autogen</a> · <a href="https://github.com/microsoft/autogen" target="_blank" rel="noopener noreferrer">GitHub</a></p>
 
-<h3>4.6 Google ADK — Agent Development Kit</h3>
-<p><a href="https://github.com/google/adk-python" target="_blank" rel="noopener noreferrer">Google ADK</a> 是 Google 的 Agent 开发套件，紧密集成 Gemini 模型和 Google Cloud 生态。</p>
-<p><strong>参考链接：</strong> <a href="https://google.github.io/adk-docs/" target="_blank" rel="noopener noreferrer">官方文档</a> · <a href="https://github.com/google/adk-python" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+<h2>6. Google ADK — Agent Development Kit</h2>
+<p><a href="https://github.com/google/adk-python" target="_blank" rel="noopener noreferrer">Google ADK</a> tightly integrates with Gemini and Google Cloud.</p>
+<p><strong>Docs:</strong> <a href="https://google.github.io/adk-docs/" target="_blank" rel="noopener noreferrer">google.github.io/adk-docs</a> · <a href="https://github.com/google/adk-python" target="_blank" rel="noopener noreferrer">GitHub</a></p>
 
-<h3>框架对比表</h3>
+<h2>Comparison Matrix</h2>
 <table>
-  <thead><tr><th>框架</th><th>编排模型</th><th>Multi-Agent</th><th>MCP</th><th>类型安全</th><th>学习曲线</th><th>适合</th></tr></thead>
+  <thead><tr><th>Framework</th><th>Orchestration</th><th>Multi-Agent</th><th>MCP</th><th>Type Safety</th><th>Learning Curve</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td><strong>LangGraph</strong></td><td>状态图</td><td>✓</td><td>✓</td><td>中</td><td>中高</td><td>复杂工作流</td></tr>
-    <tr><td><strong>OpenAI Agents</strong></td><td>循环+委派</td><td>✓ (Handoff)</td><td>✓</td><td>中</td><td>低</td><td>OpenAI 生态</td></tr>
-    <tr><td><strong>PydanticAI</strong></td><td>函数式</td><td>手动</td><td>✓</td><td>强</td><td>低</td><td>类型安全场景</td></tr>
-    <tr><td><strong>CrewAI</strong></td><td>角色+任务</td><td>✓ (核心)</td><td>✓</td><td>弱</td><td>低</td><td>角色协作</td></tr>
-    <tr><td><strong>AutoGen</strong></td><td>对话式</td><td>✓ (核心)</td><td>✓</td><td>弱</td><td>中</td><td>对话协商</td></tr>
-    <tr><td><strong>Google ADK</strong></td><td>函数式</td><td>✓</td><td>✓</td><td>中</td><td>中</td><td>Google 生态</td></tr>
+    <tr><td><strong>LangGraph</strong></td><td>State graph</td><td>Yes</td><td>Yes</td><td>Medium</td><td>Medium-High</td><td>Complex workflows</td></tr>
+    <tr><td><strong>OpenAI Agents</strong></td><td>Loop + Handoff</td><td>Yes</td><td>Yes</td><td>Medium</td><td>Low</td><td>OpenAI ecosystem</td></tr>
+    <tr><td><strong>PydanticAI</strong></td><td>Functional</td><td>Manual</td><td>Yes</td><td>Strong</td><td>Low</td><td>Typed Python apps</td></tr>
+    <tr><td><strong>CrewAI</strong></td><td>Role + Task</td><td>Core</td><td>Yes</td><td>Weak</td><td>Low</td><td>Role collaboration</td></tr>
+    <tr><td><strong>AutoGen</strong></td><td>Conversation</td><td>Core</td><td>Yes</td><td>Weak</td><td>Medium</td><td>Conversational negotiation</td></tr>
+    <tr><td><strong>Google ADK</strong></td><td>Functional</td><td>Yes</td><td>Yes</td><td>Medium</td><td>Medium</td><td>Google ecosystem</td></tr>
   </tbody>
 </table>
 
-<h2 id="mcp-protocol">五、协议层：MCP / A2A / AG-UI</h2>
-
-<h3>5.1 MCP (Model Context Protocol)</h3>
-<p><a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer">MCP</a> 是 Anthropic 提出的开放协议，目标是标准化 LLM 与外部工具/数据源的交互方式。你可以把它理解为 <strong>"AI 世界的 USB 接口"</strong>。</p>
-<ul>
-  <li><strong>Tools</strong> — Agent 可调用的函数（搜索、计算、API 调用等）</li>
-  <li><strong>Resources</strong> — Agent 可读取的数据源（文件、数据库等）</li>
-  <li><strong>Prompts</strong> — 预定义的 prompt 模板</li>
-</ul>
-<p>MCP 的关键价值：<strong>一次实现，处处可用</strong>。一个 MCP Server 可以被 Claude、ChatGPT、LangGraph、PydanticAI 等任何支持 MCP 的客户端使用。</p>
-<p><strong>参考链接：</strong> <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer">MCP 官方文档</a> · <a href="https://github.com/modelcontextprotocol" target="_blank" rel="noopener noreferrer">GitHub 组织</a></p>
-
-<h3>5.2 A2A (Agent-to-Agent Protocol)</h3>
-<p><a href="https://google.github.io/A2A/" target="_blank" rel="noopener noreferrer">A2A</a> 是 Google 提出的 Agent 间通信协议。如果说 MCP 解决的是 "Agent ↔ Tool" 的问题，A2A 解决的是 <strong>"Agent ↔ Agent"</strong> 的问题。</p>
-<ul>
-  <li>Agent 通过 <strong>Agent Card</strong> 发布自己的能力</li>
-  <li>支持跨框架、跨厂商的 Agent 互操作</li>
-  <li>任务生命周期管理（创建 → 执行 → 完成）</li>
-</ul>
-<p><strong>参考链接：</strong> <a href="https://google.github.io/A2A/" target="_blank" rel="noopener noreferrer">A2A 协议规范</a></p>
-
-<h3>5.3 AG-UI (Agent-User Interaction Protocol)</h3>
-<p><a href="https://docs.ag-ui.com/" target="_blank" rel="noopener noreferrer">AG-UI</a> 是 CopilotKit 提出的 Agent-to-Frontend 协议，解决 Agent 与 UI 的实时通信。</p>
-<ul>
-  <li>Agent 可以实时更新 UI 状态</li>
-  <li>支持流式文本、工具调用可视化、状态同步</li>
-</ul>
-<p><strong>参考链接：</strong> <a href="https://docs.ag-ui.com/" target="_blank" rel="noopener noreferrer">AG-UI 文档</a></p>
-
-<h3>协议对比</h3>
+<h2>Selection Guide</h2>
 <table>
-  <thead><tr><th>协议</th><th>解决的问题</th><th>提出者</th><th>状态</th></tr></thead>
+  <thead><tr><th>Use Case</th><th>Recommended</th><th>Reason</th></tr></thead>
   <tbody>
-    <tr><td><strong>MCP</strong></td><td>Agent ↔ Tool/Data</td><td>Anthropic</td><td>成熟，广泛采用</td></tr>
-    <tr><td><strong>A2A</strong></td><td>Agent ↔ Agent</td><td>Google</td><td>早期，快速发展</td></tr>
-    <tr><td><strong>AG-UI</strong></td><td>Agent ↔ Frontend</td><td>CopilotKit</td><td>早期</td></tr>
-    <tr><td><strong>Function Calling</strong></td><td>LLM ↔ Function</td><td>OpenAI</td><td>成熟，原生支持</td></tr>
+    <tr><td>Quick prototyping</td><td>OpenAI Agents / PydanticAI</td><td>Simple API, fast setup</td></tr>
+    <tr><td>Complex multi-step workflows</td><td>LangGraph</td><td>State graph + persistence + branching</td></tr>
+    <tr><td>Multi-role team automation</td><td>CrewAI</td><td>Intuitive role definitions</td></tr>
+    <tr><td>Enterprise agent platform</td><td>Dify + LangGraph</td><td>Visual + code flexibility</td></tr>
+    <tr><td>Type safety priority</td><td>PydanticAI</td><td>Deep Python type system integration</td></tr>
+    <tr><td>No-code</td><td>Dify / Coze / FlowiseAI</td><td>Drag-and-drop visual builders</td></tr>
+  </tbody>
+</table>
+`,
+    author: defaultAuthor,
+    readTime: '10 min read',
+    relatedPosts: ['ai-agent-design-patterns', 'ai-agent-protocols'],
+  },
+  {
+    title: "AI Agent Protocol Layer: MCP, A2A, AG-UI, and Function Calling",
+    excerpt: "Understanding the protocol layer that connects agents to tools, other agents, and frontends — MCP, A2A, AG-UI, and native Function Calling compared.",
+    image: '/img/blog4.jpg',
+    url: '/blog/ai-agent-protocols',
+    date: 'March 5, 2026',
+    category: 'AI',
+    tags: ["AI Agent", "MCP", "A2A", "AG-UI", "Function Calling", "Protocol"],
+    slug: 'ai-agent-protocols',
+    content: `
+<h1>AI Agent Protocol Layer: MCP, A2A, AG-UI, and Function Calling</h1>
+<p><strong>Part 4</strong> of the <em>AI Agent Tech Stack</em> series. See also: <a href="/blog/ai-agent-core-architecture">Core Architecture</a> · <a href="/blog/ai-agent-design-patterns">Design Patterns</a> · <a href="/blog/ai-agent-frameworks">Framework Comparison</a> · <a href="/blog/ai-agent-production">Production Practices</a>.</p>
+
+<h2>1. MCP (Model Context Protocol)</h2>
+<p><a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer">MCP</a> is an open protocol by Anthropic that standardizes how LLMs interact with external tools and data sources. Think of it as <strong>"USB for AI"</strong>.</p>
+<ul>
+  <li><strong>Tools</strong> — callable functions (search, calculate, API calls)</li>
+  <li><strong>Resources</strong> — readable data sources (files, databases)</li>
+  <li><strong>Prompts</strong> — predefined prompt templates</li>
+</ul>
+<p>Key value: <strong>build once, use everywhere</strong>. One MCP server works with Claude, ChatGPT, LangGraph, PydanticAI, and any MCP-compatible client.</p>
+<p><strong>Reference:</strong> <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer">MCP Docs</a> · <a href="https://github.com/modelcontextprotocol" target="_blank" rel="noopener noreferrer">GitHub org</a></p>
+
+<h2>2. A2A (Agent-to-Agent Protocol)</h2>
+<p><a href="https://google.github.io/A2A/" target="_blank" rel="noopener noreferrer">A2A</a> by Google solves agent-to-agent communication. While MCP handles Agent ↔ Tool, A2A handles <strong>Agent ↔ Agent</strong>.</p>
+<ul>
+  <li>Agents publish capabilities via <strong>Agent Cards</strong></li>
+  <li>Cross-framework, cross-vendor agent interop</li>
+  <li>Task lifecycle management (create → execute → complete)</li>
+</ul>
+<p><strong>Reference:</strong> <a href="https://google.github.io/A2A/" target="_blank" rel="noopener noreferrer">A2A Protocol Specification</a></p>
+
+<h2>3. AG-UI (Agent-User Interaction Protocol)</h2>
+<p><a href="https://docs.ag-ui.com/" target="_blank" rel="noopener noreferrer">AG-UI</a> by CopilotKit handles Agent ↔ Frontend real-time communication.</p>
+<ul>
+  <li>Real-time UI state updates from agents</li>
+  <li>Streaming text, tool call visualization, state sync</li>
+</ul>
+<p><strong>Reference:</strong> <a href="https://docs.ag-ui.com/" target="_blank" rel="noopener noreferrer">AG-UI Docs</a></p>
+
+<h2>4. Function Calling (Native)</h2>
+<p>Built into OpenAI and Anthropic APIs. The LLM outputs structured JSON tool calls, the application executes them, and returns results to the LLM.</p>
+<p>Simpler than MCP but tightly coupled to a single provider. MCP is the standardized evolution of this concept.</p>
+
+<h2>Protocol Comparison</h2>
+<table>
+  <thead><tr><th>Protocol</th><th>Problem Solved</th><th>Author</th><th>Maturity</th></tr></thead>
+  <tbody>
+    <tr><td><strong>MCP</strong></td><td>Agent ↔ Tool/Data</td><td>Anthropic</td><td>Mature, widely adopted</td></tr>
+    <tr><td><strong>A2A</strong></td><td>Agent ↔ Agent</td><td>Google</td><td>Early, growing fast</td></tr>
+    <tr><td><strong>AG-UI</strong></td><td>Agent ↔ Frontend</td><td>CopilotKit</td><td>Early</td></tr>
+    <tr><td><strong>Function Calling</strong></td><td>LLM ↔ Function</td><td>OpenAI</td><td>Mature, native support</td></tr>
   </tbody>
 </table>
 
-<h2>六、低代码平台</h2>
-<p>如果你不需要深度定制，低代码平台可以快速搭建 Agent 应用：</p>
-<table>
-  <thead><tr><th>平台</th><th>特点</th><th>部署方式</th><th>链接</th></tr></thead>
-  <tbody>
-    <tr><td><strong><a href="https://github.com/langgenius/dify" target="_blank" rel="noopener noreferrer">Dify</a></strong></td><td>可视化工作流、RAG 管道、插件生态</td><td>自托管 / 云</td><td><a href="https://dify.ai/" target="_blank" rel="noopener noreferrer">dify.ai</a></td></tr>
-    <tr><td><strong><a href="https://www.coze.com/" target="_blank" rel="noopener noreferrer">Coze</a></strong></td><td>ByteDance 平台、多渠道发布</td><td>云</td><td><a href="https://www.coze.com/" target="_blank" rel="noopener noreferrer">coze.com</a></td></tr>
-    <tr><td><strong><a href="https://github.com/FlowiseAI/Flowise" target="_blank" rel="noopener noreferrer">FlowiseAI</a></strong></td><td>拖拽式 LLM 流程、LangChain 可视化</td><td>自托管</td><td><a href="https://flowiseai.com/" target="_blank" rel="noopener noreferrer">flowiseai.com</a></td></tr>
-    <tr><td><strong><a href="https://github.com/langflow-ai/langflow" target="_blank" rel="noopener noreferrer">Langflow</a></strong></td><td>可视化 IDE、支持代码导出</td><td>自托管 / DataStax</td><td><a href="https://www.langflow.org/" target="_blank" rel="noopener noreferrer">langflow.org</a></td></tr>
-    <tr><td><strong><a href="https://n8n.io/" target="_blank" rel="noopener noreferrer">n8n</a></strong></td><td>通用自动化 + AI 节点、1000+ 集成</td><td>自托管 / 云</td><td><a href="https://n8n.io/" target="_blank" rel="noopener noreferrer">n8n.io</a></td></tr>
-  </tbody>
-</table>
-
-<h2>七、生产实践要点</h2>
-
-<h3>7.1 可观测性</h3>
+<h2>How They Fit Together</h2>
+<p>These protocols are complementary, not competing:</p>
 <ul>
-  <li><strong><a href="https://github.com/langfuse/langfuse" target="_blank" rel="noopener noreferrer">Langfuse</a></strong> — 开源 LLM 可观测平台（Tracing、评估、Prompt 管理）</li>
-  <li><strong><a href="https://www.langchain.com/langsmith" target="_blank" rel="noopener noreferrer">LangSmith</a></strong> — LangChain 官方的追踪和评估平台</li>
-  <li><strong>OpenTelemetry</strong> — Agent 链路的标准化追踪</li>
-</ul>
-
-<h3>7.2 评估 (Evaluation)</h3>
-<ul>
-  <li><strong>正确性</strong> — Agent 是否完成了任务？</li>
-  <li><strong>效率</strong> — 用了多少步骤、多少 token？</li>
-  <li><strong>安全性</strong> — 是否遵守了边界约束？</li>
-  <li><strong>工具：</strong> <a href="https://github.com/confident-ai/deepeval" target="_blank" rel="noopener noreferrer">DeepEval</a>、<a href="https://docs.ragas.io/" target="_blank" rel="noopener noreferrer">RAGAS</a>、自定义评估套件</li>
-</ul>
-
-<h3>7.3 安全与 Guardrails</h3>
-<ul>
-  <li><strong>Prompt Injection 防护</strong> — 输入清洗、指令隔离</li>
-  <li><strong>输出验证</strong> — 结构化校验（Pydantic）、敏感信息过滤</li>
-  <li><strong>工具权限控制</strong> — 最小权限原则，危险操作需人工确认</li>
-  <li><strong>工具：</strong> <a href="https://github.com/guardrails-ai/guardrails" target="_blank" rel="noopener noreferrer">Guardrails AI</a>、OpenAI Agents SDK 内置 Guardrails</li>
-</ul>
-
-<h3>7.4 部署架构</h3>
-<ul>
-  <li><strong>LLM 路由</strong> — <a href="https://github.com/BerriAI/litellm" target="_blank" rel="noopener noreferrer">LiteLLM</a> 统一 API 代理，支持故障转移和负载均衡</li>
-  <li><strong>异步执行</strong> — Celery / Ray 处理长时间运行的 Agent 任务</li>
-  <li><strong>状态管理</strong> — Redis / PostgreSQL 持久化 Agent 状态</li>
-  <li><strong>容器化</strong> — Docker + Kubernetes 标准化部署</li>
-</ul>
-
-<h2>八、技术选型建议</h2>
-
-<h3>按场景选框架</h3>
-<table>
-  <thead><tr><th>场景</th><th>推荐框架</th><th>理由</th></tr></thead>
-  <tbody>
-    <tr><td>快速原型验证</td><td>OpenAI Agents SDK / PydanticAI</td><td>API 简洁，上手快</td></tr>
-    <tr><td>复杂多步工作流</td><td>LangGraph</td><td>状态图 + 持久化 + 条件分支</td></tr>
-    <tr><td>多角色团队协作</td><td>CrewAI</td><td>角色定义直观</td></tr>
-    <tr><td>企业级 Agent 平台</td><td>Dify + LangGraph</td><td>可视化 + 代码灵活性</td></tr>
-    <tr><td>类型安全优先</td><td>PydanticAI</td><td>Python 类型系统深度集成</td></tr>
-    <tr><td>Google 生态</td><td>Google ADK</td><td>Gemini + Cloud 原生集成</td></tr>
-    <tr><td>不写代码</td><td>Dify / Coze / FlowiseAI</td><td>拖拽式可视化构建</td></tr>
-  </tbody>
-</table>
-
-<h2>九、总结</h2>
-<p>AI Agent 技术栈正在快速成熟，核心要素可以归纳为：</p>
-<ol>
-  <li><strong>LLM 选型</strong> — 根据成本、延迟、能力需求选择合适的模型</li>
-  <li><strong>框架选型</strong> — 从 LangGraph / OpenAI Agents / PydanticAI 中选择匹配的编排方式</li>
-  <li><strong>协议层</strong> — MCP 已成为工具集成的事实标准，A2A 正在崛起</li>
-  <li><strong>记忆系统</strong> — RAG + 向量数据库是长期记忆的标准方案</li>
-  <li><strong>生产化</strong> — 可观测性、评估、安全 guardrails 是上线的必备能力</li>
-</ol>
-
-<h2>参考链接汇总</h2>
-<h3>框架</h3>
-<ul>
-  <li><a href="https://github.com/langchain-ai/langgraph" target="_blank" rel="noopener noreferrer">LangGraph GitHub</a> · <a href="https://langchain-ai.github.io/langgraph/" target="_blank" rel="noopener noreferrer">文档</a></li>
-  <li><a href="https://github.com/openai/openai-agents-python" target="_blank" rel="noopener noreferrer">OpenAI Agents SDK GitHub</a> · <a href="https://openai.github.io/openai-agents-python/" target="_blank" rel="noopener noreferrer">文档</a></li>
-  <li><a href="https://github.com/pydantic/pydantic-ai" target="_blank" rel="noopener noreferrer">PydanticAI GitHub</a> · <a href="https://ai.pydantic.dev/" target="_blank" rel="noopener noreferrer">文档</a></li>
-  <li><a href="https://github.com/crewAIInc/crewAI" target="_blank" rel="noopener noreferrer">CrewAI GitHub</a> · <a href="https://docs.crewai.com/" target="_blank" rel="noopener noreferrer">文档</a></li>
-  <li><a href="https://github.com/microsoft/autogen" target="_blank" rel="noopener noreferrer">AutoGen GitHub</a> · <a href="https://microsoft.github.io/autogen/" target="_blank" rel="noopener noreferrer">文档</a></li>
-  <li><a href="https://github.com/google/adk-python" target="_blank" rel="noopener noreferrer">Google ADK GitHub</a> · <a href="https://google.github.io/adk-docs/" target="_blank" rel="noopener noreferrer">文档</a></li>
-</ul>
-<h3>协议</h3>
-<ul>
-  <li><a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer">MCP (Model Context Protocol)</a></li>
-  <li><a href="https://google.github.io/A2A/" target="_blank" rel="noopener noreferrer">A2A (Agent-to-Agent Protocol)</a></li>
-  <li><a href="https://docs.ag-ui.com/" target="_blank" rel="noopener noreferrer">AG-UI (Agent-User Interaction Protocol)</a></li>
-</ul>
-<h3>平台</h3>
-<ul>
-  <li><a href="https://github.com/langgenius/dify" target="_blank" rel="noopener noreferrer">Dify</a> · <a href="https://github.com/FlowiseAI/Flowise" target="_blank" rel="noopener noreferrer">FlowiseAI</a> · <a href="https://github.com/langflow-ai/langflow" target="_blank" rel="noopener noreferrer">Langflow</a> · <a href="https://n8n.io/" target="_blank" rel="noopener noreferrer">n8n</a></li>
-</ul>
-<h3>工具链</h3>
-<ul>
-  <li><a href="https://github.com/BerriAI/litellm" target="_blank" rel="noopener noreferrer">LiteLLM</a> · <a href="https://github.com/langfuse/langfuse" target="_blank" rel="noopener noreferrer">Langfuse</a> · <a href="https://github.com/mem0ai/mem0" target="_blank" rel="noopener noreferrer">Mem0</a> · <a href="https://github.com/confident-ai/deepeval" target="_blank" rel="noopener noreferrer">DeepEval</a></li>
-</ul>
-<h3>学习资源</h3>
-<ul>
-  <li><a href="https://lilianweng.github.io/posts/2023-06-23-agent/" target="_blank" rel="noopener noreferrer">Lilian Weng: LLM Powered Autonomous Agents</a></li>
-  <li><a href="https://www.deeplearning.ai/short-courses/" target="_blank" rel="noopener noreferrer">DeepLearning.AI: AI Agents 系列课程</a></li>
-  <li><a href="https://arxiv.org/abs/2210.03629" target="_blank" rel="noopener noreferrer">ReAct 论文: Synergizing Reasoning and Acting in Language Models</a></li>
+  <li><strong>Function Calling</strong> — the low-level mechanism (LLM generates tool calls)</li>
+  <li><strong>MCP</strong> — the standardized tool/data interface (portable across clients)</li>
+  <li><strong>A2A</strong> — the inter-agent communication layer (agent discovery + delegation)</li>
+  <li><strong>AG-UI</strong> — the frontend bridge (real-time UI updates from agents)</li>
 </ul>
 `,
     author: defaultAuthor,
-    readTime: '25 min read',
-    relatedPosts: ['openai-agents-#2463-runconfig-inheritance', 'dify-#32705-notion-sync-dict-serialization'],
+    readTime: '7 min read',
+    relatedPosts: ['ai-agent-frameworks', 'ai-agent-production'],
+  },
+  {
+    title: "AI Agents in Production: Observability, Evaluation, Guardrails, and Deployment",
+    excerpt: "Taking agents from prototype to production — covering observability with Langfuse, evaluation strategies, security guardrails, low-code platforms, and deployment architecture.",
+    image: '/img/blog3.jpg',
+    url: '/blog/ai-agent-production',
+    date: 'March 5, 2026',
+    category: 'AI',
+    tags: ["AI Agent", "Production", "Observability", "Guardrails", "Deployment", "Dify"],
+    slug: 'ai-agent-production',
+    content: `
+<h1>AI Agents in Production: Observability, Evaluation, Guardrails, and Deployment</h1>
+<p><strong>Part 5</strong> of the <em>AI Agent Tech Stack</em> series. See also: <a href="/blog/ai-agent-core-architecture">Core Architecture</a> · <a href="/blog/ai-agent-design-patterns">Design Patterns</a> · <a href="/blog/ai-agent-frameworks">Framework Comparison</a> · <a href="/blog/ai-agent-protocols">Protocol Layer</a>.</p>
+
+<h2>1. Observability</h2>
+<ul>
+  <li><strong><a href="https://github.com/langfuse/langfuse" target="_blank" rel="noopener noreferrer">Langfuse</a></strong> — open-source LLM observability (tracing, evaluation, prompt management)</li>
+  <li><strong><a href="https://www.langchain.com/langsmith" target="_blank" rel="noopener noreferrer">LangSmith</a></strong> — LangChain's official tracing and evaluation platform</li>
+  <li><strong>OpenTelemetry</strong> — standardized tracing for agent call chains</li>
+</ul>
+
+<h2>2. Evaluation</h2>
+<ul>
+  <li><strong>Correctness</strong> — did the agent complete the task?</li>
+  <li><strong>Efficiency</strong> — how many steps/tokens were used?</li>
+  <li><strong>Safety</strong> — did the agent respect boundary constraints?</li>
+  <li><strong>Tools:</strong> <a href="https://github.com/confident-ai/deepeval" target="_blank" rel="noopener noreferrer">DeepEval</a>, <a href="https://docs.ragas.io/" target="_blank" rel="noopener noreferrer">RAGAS</a>, custom evaluation suites</li>
+</ul>
+
+<h2>3. Security &amp; Guardrails</h2>
+<ul>
+  <li><strong>Prompt Injection defense</strong> — input sanitization, instruction isolation</li>
+  <li><strong>Output validation</strong> — Pydantic schema checks, PII filtering</li>
+  <li><strong>Tool permission control</strong> — least privilege principle, human approval for dangerous actions</li>
+  <li><strong>Tools:</strong> <a href="https://github.com/guardrails-ai/guardrails" target="_blank" rel="noopener noreferrer">Guardrails AI</a>, OpenAI Agents SDK built-in guardrails</li>
+</ul>
+
+<h2>4. Low-Code Platforms</h2>
+<table>
+  <thead><tr><th>Platform</th><th>Features</th><th>Deployment</th><th>Link</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Dify</strong></td><td>Visual workflow, RAG pipeline, plugin ecosystem</td><td>Self-hosted / Cloud</td><td><a href="https://dify.ai/" target="_blank" rel="noopener noreferrer">dify.ai</a></td></tr>
+    <tr><td><strong>Coze</strong></td><td>ByteDance platform, multi-channel deploy</td><td>Cloud</td><td><a href="https://www.coze.com/" target="_blank" rel="noopener noreferrer">coze.com</a></td></tr>
+    <tr><td><strong>FlowiseAI</strong></td><td>Drag-and-drop LLM flows, LangChain visual</td><td>Self-hosted</td><td><a href="https://flowiseai.com/" target="_blank" rel="noopener noreferrer">flowiseai.com</a></td></tr>
+    <tr><td><strong>Langflow</strong></td><td>Visual IDE, code export support</td><td>Self-hosted / DataStax</td><td><a href="https://www.langflow.org/" target="_blank" rel="noopener noreferrer">langflow.org</a></td></tr>
+    <tr><td><strong>n8n</strong></td><td>General automation + AI nodes, 1000+ integrations</td><td>Self-hosted / Cloud</td><td><a href="https://n8n.io/" target="_blank" rel="noopener noreferrer">n8n.io</a></td></tr>
+  </tbody>
+</table>
+
+<h2>5. Deployment Architecture</h2>
+<ul>
+  <li><strong>LLM routing</strong> — <a href="https://github.com/BerriAI/litellm" target="_blank" rel="noopener noreferrer">LiteLLM</a> as unified API proxy with failover and load balancing</li>
+  <li><strong>Async execution</strong> — Celery / Ray for long-running agent tasks</li>
+  <li><strong>State management</strong> — Redis / PostgreSQL for persisting agent state</li>
+  <li><strong>Containerization</strong> — Docker + Kubernetes for standardized deployment</li>
+</ul>
+
+<h2>Reference Links</h2>
+<h3>Frameworks</h3>
+<ul>
+  <li><a href="https://github.com/langchain-ai/langgraph" target="_blank" rel="noopener noreferrer">LangGraph</a> · <a href="https://github.com/openai/openai-agents-python" target="_blank" rel="noopener noreferrer">OpenAI Agents SDK</a> · <a href="https://github.com/pydantic/pydantic-ai" target="_blank" rel="noopener noreferrer">PydanticAI</a> · <a href="https://github.com/crewAIInc/crewAI" target="_blank" rel="noopener noreferrer">CrewAI</a> · <a href="https://github.com/microsoft/autogen" target="_blank" rel="noopener noreferrer">AutoGen</a> · <a href="https://github.com/google/adk-python" target="_blank" rel="noopener noreferrer">Google ADK</a></li>
+</ul>
+<h3>Protocols</h3>
+<ul>
+  <li><a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer">MCP</a> · <a href="https://google.github.io/A2A/" target="_blank" rel="noopener noreferrer">A2A</a> · <a href="https://docs.ag-ui.com/" target="_blank" rel="noopener noreferrer">AG-UI</a></li>
+</ul>
+<h3>Toolchain</h3>
+<ul>
+  <li><a href="https://github.com/BerriAI/litellm" target="_blank" rel="noopener noreferrer">LiteLLM</a> · <a href="https://github.com/langfuse/langfuse" target="_blank" rel="noopener noreferrer">Langfuse</a> · <a href="https://github.com/mem0ai/mem0" target="_blank" rel="noopener noreferrer">Mem0</a> · <a href="https://github.com/confident-ai/deepeval" target="_blank" rel="noopener noreferrer">DeepEval</a></li>
+</ul>
+<h3>Learning Resources</h3>
+<ul>
+  <li><a href="https://lilianweng.github.io/posts/2023-06-23-agent/" target="_blank" rel="noopener noreferrer">Lilian Weng: LLM Powered Autonomous Agents</a></li>
+  <li><a href="https://www.deeplearning.ai/short-courses/" target="_blank" rel="noopener noreferrer">DeepLearning.AI: AI Agents Courses</a></li>
+  <li><a href="https://arxiv.org/abs/2210.03629" target="_blank" rel="noopener noreferrer">ReAct Paper</a></li>
+</ul>
+`,
+    author: defaultAuthor,
+    readTime: '7 min read',
+    relatedPosts: ['ai-agent-protocols', 'ai-agent-frameworks'],
   },
   {
     title: "Fix GPT-2 Attention Scaling Ignored in SDPA/FlashAttention",
