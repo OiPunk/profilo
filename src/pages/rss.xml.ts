@@ -6,7 +6,7 @@ export function GET(context: APIContext) {
   return rss({
     title: 'Weiguang Li - Tech Blog',
     description: 'Java Backend Engineering insights covering Spring Boot, distributed systems, microservices, and software architecture.',
-    site: context.site ?? 'https://oipunk.github.io',
+    site: context.site ?? 'https://oipunk.io',
     items: blogItems.map((post) => ({
       title: post.title,
       pubDate: new Date(post.date),

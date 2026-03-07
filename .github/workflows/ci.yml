@@ -1,7 +1,9 @@
-name: Deploy to Root Site
+name: Build Check
 
 on:
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
   workflow_dispatch:
 
@@ -9,7 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,12 +28,3 @@ jobs:
 
       - name: Build
         run: npm run build
-
-      - name: Deploy to oipunk.github.io
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          external_repository: OiPunk/oipunk.github.io
-          publish_branch: main
-          publish_dir: ./dist
-          commit_message: "Deploy from portfolio: ${{ github.sha }}"
